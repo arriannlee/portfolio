@@ -7,7 +7,7 @@ export default function Header() {
   const [active, setActive] = useState(false)
 
   return (
-    <header className="fixed top-0 left-0 w-full p-4 md:p-6 z-40">
+<header className="fixed top-0 left-0 w-full h-16 md:h-20 p-4 md:p-6 z-40">
       <Link
         href="/"
         onMouseEnter={() => setActive(true)}
