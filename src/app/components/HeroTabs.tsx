@@ -64,25 +64,39 @@ export default function HeroTabs() {
       </div>
 
       {/* Panel area with stable height so tabs don't jump */}
-      <div className="mt-2 sm:mt-3 min-h-[112px]">
-        {TABS.map((tab, i) => {
-          const selected = i === active
-          return (
-            <div
-              key={tab.id}
-              role="tabpanel"
-              id={`${baseId}-panel-${tab.id}`}
-              aria-labelledby={`${baseId}-tab-${tab.id}`}
-              hidden={!selected}
-              className="mt-2 sm:mt-3"
+{/* Panel area with stable height so tabs don't jump */}
+<div className="mt-2 sm:mt-3 min-h-[112px]">
+  {TABS.map((tab, i) => {
+    const selected = i === active
+    return (
+      <div
+        key={tab.id}
+        role="tabpanel"
+        id={`${baseId}-panel-${tab.id}`}
+        aria-labelledby={`${baseId}-tab-${tab.id}`}
+        hidden={!selected}
+        className="mt-2 sm:mt-3"
+      >
+        {tab.id === 'four' ? (
+          <p className="font-body text-lg sm:text-xl leading-relaxed text-sub-text max-w-prose">
+            I’m creative coded, {"{!yet}"} a full engineer but fluent enough to build {"{"}
+            <a
+              href="/dev"
+              className="text-[color:var(--color-accent)] hover:text-[color:var(--color-accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 rounded transition-colors"
             >
-              <p className="font-body text-lg sm:text-xl leading-relaxed text-sub-text max-w-prose">
-                {tab.body}
-              </p>
-            </div>
-          )
-        })}
+              this.site
+            </a>{"} "} 
+            and a few others along the way.
+          </p>
+        ) : (
+          <p className="font-body text-lg sm:text-xl leading-relaxed text-sub-text max-w-prose">
+            {tab.body}
+          </p>
+        )}
       </div>
+    )
+  })}
+</div>
     </div>
   )
 }

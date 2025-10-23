@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes"
 import ThemeToggleFloating from "@/app/components/ThemeToggleFloating"
 import "./globals.css"
 import Header from "./components/Header"
+import BackToTop from "./components/BackToTop"   // ← NEW
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: "swap" })
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-heading", display: "swap" })
@@ -16,16 +17,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${outfit.variable} ${jetbrains.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="en" className={`${inter.variable} ${outfit.variable} ${jetbrains.variable}`} suppressHydrationWarning>
       <body className="antialiased bg-bg text-text">
         <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
           <ThemeToggleFloating />
           <Header />
-          {children}
+          {/* Reserve space for fixed header */}
+          <main className="pt-16 md:pt-20">
+            {children}
+          </main>
+
+          {/* Floating UI (shows when #contact is in view) */}
+          <BackToTop />        {/* ← NEW */}
         </ThemeProvider>
       </body>
     </html>
