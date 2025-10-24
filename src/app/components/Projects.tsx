@@ -6,12 +6,13 @@ type Project = {
   id: string
   title: string
   blurb: string
+  link: string
 }
 const PROJECTS: Project[] = [
-  { id: 'p1', title: 'Project One', blurb: 'Short blurb about the work.' },
-  { id: 'p2', title: 'Project Two', blurb: 'Accessibility-first UI.' },
-  { id: 'p3', title: 'Project Three', blurb: 'Design system + theming.' },
-  { id: 'p4', title: 'Project Four', blurb: 'Perf-focused build.' },
+  { id: 'p1', title: 'Project One', blurb: 'description', link: 'https://project.com'},
+  { id: 'p2', title: 'Project Two', blurb: 'description', link: 'https://project.com' },
+  { id: 'p3', title: 'Project Three', blurb: 'description', link: 'https://project.com' },
+  { id: 'p4', title: 'Project Four', blurb: 'description', link: 'https://project.com' },
 ]
 
 export default function Projects() {

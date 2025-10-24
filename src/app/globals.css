@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Tailwind v4 bridge: map your tokens so utilities like bg-bg/text-text work */
+/* TAILWIND BRIDGE */
 @theme inline {
   --color-bg: var(--color-bg);
   --color-bg-secondary: var(--color-bg-secondary);
@@ -19,7 +19,7 @@
   --font-dev: var(--font-dev);
 }
 
-/* LIGHT THEME — defaults */
+/* LIGHT THEME */
 :root {
   --color-bg: #ffffff;
   --color-bg-secondary: #f8f8f8;
@@ -35,13 +35,13 @@
   --color-highlight-text: #ffffff;
 }
 
-/* DARK THEME — set by next-themes via <html data-theme="dark"> */
+/* DARK THEME */
 html[data-theme="dark"] {
   --color-bg: #0e0e0e;
   --color-bg-secondary: #1a1a1a;
   --color-border: #333333;
 
-  --color-text: #a1a1a1;
+  --color-text: #f2f2f2;
   --color-sub-text: #a1a1a1;
 
   --color-accent: #ff6464;
@@ -51,7 +51,7 @@ html[data-theme="dark"] {
   --color-highlight-text: #f2f2f2;
 }
 
-/* SYSTEM FALLBACK — only when no manual theme is set */
+/* SYSTEM */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     --color-bg: #0e0e0e;
