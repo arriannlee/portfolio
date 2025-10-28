@@ -70,25 +70,35 @@ html[data-theme="dark"] {
 }
 
 /* Base */
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
   overflow-x: clip;
 }
 @supports not (overflow-x: clip) {
-  html, body { overflow-x: hidden; }
+  html,
+  body {
+    overflow-x: hidden;
+  }
 }
 
 body {
-  min-height: 100dvh;                    /* mobile viewport fix */
+  min-height: 100dvh; /* mobile viewport fix */
   background: var(--color-bg);
   color: var(--color-text);
-  font-family: var(--font-body), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  transition: background .25s ease, color .25s ease;
+  font-family:
+    var(--font-body),
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
 }
-
-
 
 /* Role tab styling */
 .role-tab {
@@ -106,17 +116,26 @@ body {
   border-radius: 4px;
 }
 
-h1, h2, h3, h4, h5, h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
 .font-heading {
   letter-spacing: 0.08em; /* subtle, refined spacing */
 }
 
 /* Smooth scroll for the whole site */
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 /* Respect users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /* back-to-top micro-bounce (motion-safe) */
@@ -134,19 +153,30 @@ html { scroll-behavior: smooth; }
 }
 
 @keyframes bt-bounce {
-  0%, 100% { transform: rotate(180deg) translateY(0); }
-  50%      { transform: rotate(180deg) translateY(-8px); } /* was -4px */
+  0%,
+  100% {
+    transform: rotate(180deg) translateY(0);
+  }
+  50% {
+    transform: rotate(180deg) translateY(-8px);
+  } /* was -4px */
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bt-anim { animation: none; }
+  .bt-anim {
+    animation: none;
+  }
 }
 
 ::selection {
   background: var(--color-highlight-bg);
   color: var(--color-highlight-text);
-  text-shadow: 0 0 6px color-mix(in srgb, var(--color-highlight-bg) 60%, transparent);
-  transition: background 0.25s ease, color 0.25s ease, text-shadow 0.25s ease;
+  text-shadow: 0 0 6px
+    color-mix(in srgb, var(--color-highlight-bg) 60%, transparent);
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    text-shadow 0.25s ease;
 }
 
 ::-moz-selection {
@@ -160,10 +190,15 @@ html { scroll-behavior: smooth; }
   animation: dev-fade-in 300ms ease forwards;
 }
 @keyframes dev-fade-in {
-  to { opacity: 1; }
+  to {
+    opacity: 1;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .dev-fade { animation: none; opacity: 1; }
+  .dev-fade {
+    animation: none;
+    opacity: 1;
+  }
 }
 
 /* subtle loading dots after text */
@@ -172,17 +207,30 @@ html { scroll-behavior: smooth; }
   display: inline-block;
   width: 0.9em;
   text-align: left;
-  animation: dev-ellipsis steps(4,end) 1.2s infinite;
+  animation: dev-ellipsis steps(4, end) 1.2s infinite;
 }
 @keyframes dev-ellipsis {
-  0% { content: ""; }
-  25% { content: "."; }
-  50% { content: ".."; }
-  75% { content: "..."; }
-  100% { content: ""; }
+  0% {
+    content: "";
+  }
+  25% {
+    content: ".";
+  }
+  50% {
+    content: "..";
+  }
+  75% {
+    content: "...";
+  }
+  100% {
+    content: "";
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .dev-dots::after { animation: none; content: "..."; }
+  .dev-dots::after {
+    animation: none;
+    content: "...";
+  }
 }
 
 /* progress bar sheen (optional) */
@@ -194,13 +242,22 @@ html { scroll-behavior: smooth; }
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
   transform: translateX(-100%);
   animation: dev-sheen 1.6s ease-in-out infinite;
 }
 @keyframes dev-sheen {
-  to { transform: translateX(100%); }
+  to {
+    transform: translateX(100%);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .dev-progress::after { animation: none; }
+  .dev-progress::after {
+    animation: none;
+  }
 }
