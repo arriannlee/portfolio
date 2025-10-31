@@ -2,6 +2,10 @@
 
 import { useId, useState, KeyboardEvent } from "react";
 
+type Props ={
+  onEngineersClick?: () => void;
+};
+
 const TABS = [
   {
     id: "one",
@@ -25,28 +29,16 @@ const TABS = [
   },
 ];
 
-export default function HeroTabs() {
+export default function HeroTabs({ onEngineersClick }: Props) {
   const [active, setActive] = useState(0);
   const baseId = useId();
 
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
     const last = TABS.length - 1;
-    if (e.key === "ArrowRight") {
-      setActive((a) => (a === last ? 0 : a + 1));
-      e.preventDefault();
-    }
-    if (e.key === "ArrowLeft") {
-      setActive((a) => (a === 0 ? last : a - 1));
-      e.preventDefault();
-    }
-    if (e.key === "Home") {
-      setActive(0);
-      e.preventDefault();
-    }
-    if (e.key === "End") {
-      setActive(last);
-      e.preventDefault();
-    }
+    if (e.key === "ArrowRight") { setActive(a => (a === last ? 0 : a + 1)); e.preventDefault(); }
+    if (e.key === "ArrowLeft")  { setActive(a => (a === 0 ? last : a - 1)); e.preventDefault(); }
+    if (e.key === "Home")       { setActive(0); e.preventDefault(); }
+    if (e.key === "End")        { setActive(last); e.preventDefault(); }
   }
 
   return (
@@ -57,17 +49,13 @@ export default function HeroTabs() {
         aria-orientation="horizontal"
         aria-label="Audience"
         onKeyDown={onKeyDown}
-        className="
-          flex items-center justify-start w-full gap-x-4 gap-y-2 mb-2
-          /* mobile-only horizontal scroll */
-          overflow-x-auto no-scrollbar snap-x snap-mandatory
-          px-0 [mask-image:linear-gradient(to_right,black_92%,transparent_100%)]
-          /* ≥ md: normal row, no mask */
-          md:overflow-visible md:snap-none md:flex-wrap md:[mask-image:none]
-        "
+        className="flex items-center justify-start w-full gap-x-4 gap-y-2 mb-2 overflow-x-auto no-scrollbar snap-x snap-mandatory px-0
+                   [mask-image:linear-gradient(to_right,black_92%,transparent_100%)]
+                   md:overflow-visible md:snap-none md:flex-wrap md:[mask-image:none]"
       >
         {TABS.map((tab, i) => {
           const selected = i === active;
+          const isEngineers = tab.id === "four";
           return (
             <button
               key={tab.id}
@@ -76,10 +64,12 @@ export default function HeroTabs() {
               aria-selected={selected}
               aria-controls={`${baseId}-panel-${tab.id}`}
               tabIndex={selected ? 0 : -1}
-              onClick={() => setActive(i)}
+              onClick={() => {
+                setActive(i);
+                if (isEngineers) onEngineersClick?.(); // 👈 trigger overlay
+              }}
               className={[
-                "role-tab py-2 px-2 first:pl-0 rounded-lg text-sm sm:text-base transition-all",
-                "shrink-0 snap-start md:snap-none",
+                "role-tab py-2 px-2 first:pl-0 rounded-lg text-sm sm:text-base transition-all shrink-0 snap-start md:snap-none",
                 selected
                   ? "text-[color:var(--color-accent)]"
                   : "text-[color:var(--color-text)] hover:text-[color:var(--color-accent-hover)]",
@@ -91,8 +81,7 @@ export default function HeroTabs() {
         })}
       </div>
 
-      {/* Panel area with stable height so tabs don't jump */}
-      {/* Panel area with stable height so tabs don't jump */}
+      {/* Panels */}
       <div className="mt-2 sm:mt-3 min-h-[112px]">
         {TABS.map((tab, i) => {
           const selected = i === active;
@@ -109,12 +98,16 @@ export default function HeroTabs() {
                 <p className="font-body text-lg sm:text-xl leading-relaxed text-sub-text max-w-prose">
                   I’m creative coded, {"{!yet}"} a full engineer but fluent
                   enough to build {"{"}
-                  <a
-                    href="/dev"
-                    className="text-[color:var(--color-accent)] hover:text-[color:var(--color-accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 rounded transition-colors"
+                  {/* OPTION A: overlay button */}
+                  <button
+                    type="button"
+                    onClick={onEngineersClick}
+                    className="underline decoration-[color:var(--color-accent)] underline-offset-2 text-[color:var(--color-accent)]
+                               hover:text-[color:var(--color-accent-hover)] focus-visible:outline-none focus-visible:ring-2
+                               focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 rounded transition-colors"
                   >
                     this.site
-                  </a>
+                  </button>
                   {"} "}
                   and a few others along the way.
                 </p>

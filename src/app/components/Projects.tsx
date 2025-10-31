@@ -1,6 +1,11 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { useGSAP } from '@gsap/react' // eslint-disable-line no-unused-vars
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 type Project = {
   id: string
@@ -28,6 +33,7 @@ export default function Projects() {
         e.preventDefault()
       }
     }
+
     const mql = window.matchMedia('(min-width: 1024px)')
     const enable = () => el.addEventListener('wheel', onWheel, { passive: false })
     const disable = () => el.removeEventListener('wheel', onWheel)
@@ -88,11 +94,11 @@ function ProjectCard({ project, tall = false }: { project: Project; tall?: boole
   return (
     <article
       className={[
+        "project-card", // 👈 hook
         "rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-secondary)] overflow-hidden",
         tall ? "h-[70dvh]" : "aspect-video",
       ].join(" ")}
     >
-      {/* Split tile: text (2/5) + image area (3/5) to match your Figma */}
       <div className="grid grid-cols-5 h-full">
         <div className="col-span-5 md:col-span-2 p-6 flex flex-col justify-end">
           <h3 className="font-heading text-2xl text-[color:var(--color-accent)]">
@@ -106,6 +112,7 @@ function ProjectCard({ project, tall = false }: { project: Project; tall?: boole
           <div
             aria-hidden
             className="
+              parallax-pane  /* 👈 hook for parallax */
               w-full h-full bg-[color:var(--color-bg)]
               border-t md:border-t-0 md:border-l border-[color:var(--color-border)]
             "
@@ -113,5 +120,5 @@ function ProjectCard({ project, tall = false }: { project: Project; tall?: boole
         </div>
       </div>
     </article>
-  )
+  );
 }
