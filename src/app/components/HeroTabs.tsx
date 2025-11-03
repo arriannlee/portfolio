@@ -2,7 +2,7 @@
 
 import { useId, useState, KeyboardEvent } from "react";
 
-type Props ={
+type Props = {
   onEngineersClick?: () => void;
 };
 
@@ -35,10 +35,22 @@ export default function HeroTabs({ onEngineersClick }: Props) {
 
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
     const last = TABS.length - 1;
-    if (e.key === "ArrowRight") { setActive(a => (a === last ? 0 : a + 1)); e.preventDefault(); }
-    if (e.key === "ArrowLeft")  { setActive(a => (a === 0 ? last : a - 1)); e.preventDefault(); }
-    if (e.key === "Home")       { setActive(0); e.preventDefault(); }
-    if (e.key === "End")        { setActive(last); e.preventDefault(); }
+    if (e.key === "ArrowRight") {
+      setActive((a) => (a === last ? 0 : a + 1));
+      e.preventDefault();
+    }
+    if (e.key === "ArrowLeft") {
+      setActive((a) => (a === 0 ? last : a - 1));
+      e.preventDefault();
+    }
+    if (e.key === "Home") {
+      setActive(0);
+      e.preventDefault();
+    }
+    if (e.key === "End") {
+      setActive(last);
+      e.preventDefault();
+    }
   }
 
   return (
@@ -64,10 +76,7 @@ export default function HeroTabs({ onEngineersClick }: Props) {
               aria-selected={selected}
               aria-controls={`${baseId}-panel-${tab.id}`}
               tabIndex={selected ? 0 : -1}
-              onClick={() => {
-                setActive(i);
-                if (isEngineers) onEngineersClick?.(); // 👈 trigger overlay
-              }}
+              onClick={() => setActive(i)} // just switch tabs now
               className={[
                 "role-tab py-2 px-2 first:pl-0 rounded-lg text-sm sm:text-base transition-all shrink-0 snap-start md:snap-none",
                 selected

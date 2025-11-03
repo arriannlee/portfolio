@@ -122,13 +122,13 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
         { scaleX: 0, transformOrigin: "0% 50%", duration: 0.8 },
         "<0.2"
       )
-      // tiny glitch
+      // GLITCH EFFECT
       .to(
         ".boot-title",
         { skewX: 12, x: 5, duration: 0.06, yoyo: true, repeat: 3 },
         "<"
       )
-      .to({}, { duration: 0.5 }) // hold a beat
+      .to({}, { duration: 0.5 })
       // TRANSITION TO APP
       .to(loaderRef.current, { autoAlpha: 0, duration: 0.3 })
       .call(() => setPhase("app"))
@@ -154,13 +154,12 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
     return () => tl.kill();
   }, [open]);
 
-  // EXIT timeline
+  // EXIT
   useEffect(() => {
     if (phase !== "exiting") return;
     const tl = gsap.timeline({
       onComplete: () => {
         onClose();
-        // reset for next open
         setPhase("loading");
       },
     });
