@@ -78,18 +78,13 @@ html[data-theme="dark"] {
 }
 /* AVATAR STYLES */
 
-#r-pupil,
-#l-pupil {
-  fill: var(--color-accent);
-}
-
 .avatar-color-1,
-.avatar-face-shadow {
+.avatar-face-shadow, .r-pupil-1, .l-pupil-1 {
   fill: var(--color-accent);
 }
 
-.avatar-color-2 {
-  fill: var(--avatar-color-2);
+.avatar-color-2, .r-pupil-2, .l-pupil-2 {
+  fill: var(--color-accent-hover)
 }
 
 .avatar-face-shadow {

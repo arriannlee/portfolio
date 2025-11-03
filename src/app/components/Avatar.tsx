@@ -144,14 +144,13 @@ export default function Avatar() {
               <g id="r-eye-mover">
                 <g id="r-eye" transform="matrix(1,0,0,1,-20.789,1.91625)">
                   <g
-                    id="r-pupil-color-2"
+                    className="r-pupil-color-2"
                     transform="matrix(0.570175,0,0,0.601271,-7376.65,570.943)"
                   >
                     <circle
                       cx="15090"
                       cy="226"
                       r="57"
-                      fill="#00c2b2"
                       fillOpacity={0.2}
                     />
                     <clipPath id="_clip2">
@@ -159,7 +158,7 @@ export default function Avatar() {
                     </clipPath>
                   </g>
                   <g
-                    id="r-pupil-color-1"
+                    className="r-pupil-color-1"
                     transform="matrix(0.570175,0,0,0.601271,-7376.65,570.943)"
                   >
                     <path
@@ -172,14 +171,13 @@ export default function Avatar() {
               <g id="l-eye-mover">
                 <g id="l-eye" transform="matrix(1,0,0,1,-19.175,4.02533)">
                   <g
-                    id="l-pupil-color-2"
+                    className="l-pupil-color-2"
                     transform="matrix(0.570175,0,0,0.601271,-7776.65,568.834)"
                   >
                     <circle
                       cx="15090"
                       cy="226"
                       r="57"
-                      fill="#00c2b2"
                       fillOpacity={0.2}
                     />
                     <clipPath id="_clip3">
@@ -187,7 +185,7 @@ export default function Avatar() {
                     </clipPath>
                   </g>
                   <g
-                    id="l-pupil-color-1"
+                    className="l-pupil-color-1"
                     transform="matrix(0.570175,0,0,0.601271,-7776.65,568.834)"
                   >
                     <path
