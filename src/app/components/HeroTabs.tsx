@@ -80,8 +80,8 @@ export default function HeroTabs({ onEngineersClick }: Props) {
               className={[
                 "role-tab py-2 px-2 first:pl-0 rounded-lg text-sm sm:text-base transition-all shrink-0 snap-start md:snap-none",
                 selected
-                  ? "text-[color:var(--color-accent)]"
-                  : "text-[color:var(--color-text)] hover:text-[color:var(--color-accent-hover)]",
+                  ? "text-[color:var(--color-main)]"
+                  : "text-[color:var(--color-text)] hover:text-[color:var(--color-accent)]",
               ].join(" ")}
             >
               {tab.label}
@@ -111,9 +111,9 @@ export default function HeroTabs({ onEngineersClick }: Props) {
                   <button
                     type="button"
                     onClick={onEngineersClick}
-                    className="underline decoration-[color:var(--color-accent)] underline-offset-2 text-[color:var(--color-accent)]
+                    className="underline decoration-[color:var(--color-main)] underline-offset-2 text-[color:var(--color-main)]
                                hover:text-[color:var(--color-accent-hover)] focus-visible:outline-none focus-visible:ring-2
-                               focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 rounded transition-colors"
+                               focus-visible:ring-[color:var(--color-main)] focus-visible:ring-offset-2 rounded transition-colors"
                   >
                     this.site
                   </button>

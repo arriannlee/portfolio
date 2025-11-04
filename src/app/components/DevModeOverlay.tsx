@@ -8,6 +8,61 @@ import { FaGitAlt, FaReact } from "react-icons/fa";
 import { FaFolder, FaFolderOpen } from "react-icons/fa6";
 import { IoIosInformationCircle } from "react-icons/io";
 import { IoLogoCss3, IoIosStar } from "react-icons/io";
+import { VscVscode } from "react-icons/vsc";
+
+// DETECT OS
+
+type OS = "mac" | "windows";
+
+function detectOS(): "mac" | "windows" {
+  const uaData = (
+    navigator as unknown as { userAgentData?: { platform?: string } }
+  ).userAgentData;
+  const uaDataPlatform = uaData?.platform?.toLowerCase() || "";
+  // Fallback for older browsers
+  const ua = navigator.userAgent.toLowerCase();
+  const platform = uaDataPlatform || ua;
+  // Detect macOS
+  if (platform.includes("mac")) return "mac";
+  // Default to Windows for everything else
+  return "windows";
+}
+
+// OS OVERRIDE CMD/CTRL + SHIFT + O
+
+function resolveOS(auto: OS, forceProp?: OS): OS {
+  if (forceProp) return forceProp;
+  if (typeof window !== "undefined") {
+    const q = new URLSearchParams(window.location.search).get("os");
+    if (q === "windows" || q === "mac") return q;
+    const saved = window.localStorage.getItem("devmode.os") as OS | null;
+    if (saved === "windows" || saved === "mac") return saved;
+  }
+  return auto;
+}
+
+type DevModeOverlayProps = {
+  open: boolean;
+  onClose: () => void;
+  forceOs?: OS; // FORCE OS FOR TESTING PURPOSES ONLY
+};
+
+// CONSOLE LOG MESSAGE
+
+console.log(
+  "%cHey there, curious mind 👀",
+  "color:#34D399; font-size:14px; font-weight:bold;"
+);
+console.log(
+  "%cYou just unlocked Developer Mode. Not everything creative lives on screen 😉",
+  "color:#FF5C5C;"
+);
+console.log(
+  "%cPsst... there's a deeper layer. Can you find HACKER_MODE? 🤫",
+  "color:#facc15; font-style:italic;"
+);
+
+// CODE HIGHLIGHTERS
 
 const K = (v: React.ReactNode): JSX.Element => (
   <span className="code-keyword">{v}</span>
@@ -28,16 +83,50 @@ const N = (v: React.ReactNode): JSX.Element => (
 const CodeLine: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div className="code-line">{children}</div>
 );
-type DevModeOverlayProps = {
-  open: boolean;
-  onClose: () => void;
-};
+
+// CURRENT YEAR
 
 const currentYear = new Date().getFullYear();
 
+// PHASE TYPE
+
 type Phase = "loading" | "app" | "exiting";
 
-export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
+export default function DevModeOverlay({
+  open,
+  onClose,
+  forceOs,
+}: DevModeOverlayProps) {
+  const [os, setOS] = useState<OS>("unknown");
+
+  // OS MODE TESTING (Cmd/Ctrl + Shift + O)
+  useEffect(() => {
+    const isMac = /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent);
+
+    const onKey = (e: KeyboardEvent) => {
+      const mod = isMac ? e.metaKey : e.ctrlKey;
+
+      if (mod && e.shiftKey && e.key.toLowerCase() === "o") {
+        e.preventDefault();
+        const next = os === "windows" ? "mac" : "windows";
+        localStorage.setItem("devmode.os", next);
+
+        // Simple hard reload so styles/branches flip cleanly
+        location.reload();
+      }
+    };
+
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [os]);
+
+  useEffect(() => {
+    const auto = detectOS();
+    const resolved = resolveOS(auto, forceOs);
+    setOS(resolved);
+    document.documentElement.setAttribute("data-os", resolved);
+  }, [forceOs]);
+
   const root = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
   const appRef = useRef<HTMLDivElement>(null);
@@ -47,6 +136,7 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
   const handleExpand = () => {
     if (!appRef.current) return;
 
+    // EXPAND ANIMATION
     gsap.to(appRef.current, {
       scale: 1.03,
       duration: 0.2,
@@ -57,6 +147,7 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
     });
   };
 
+  // MINIMIZE ANIMATION
   const handleMinimize = () => {
     if (!appRef.current) return;
 
@@ -69,7 +160,8 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
       transformOrigin: "center center",
     });
   };
-  // lock body scroll while open
+
+  // LOCK SCROLLING WHEN OPEN
   useEffect(() => {
     if (!open) return;
     const original = document.documentElement.style.overflow;
@@ -79,7 +171,7 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
     };
   }, [open]);
 
-  // ESC to exit
+  // ESC TO EXIT
   const startExit = useCallback(() => {
     if (!open || phase === "exiting") return;
     setPhase("exiting");
@@ -97,11 +189,11 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, startExit]);
 
-  // GSAP sequences
+  // GSAP SEQUENCE
   useGSAP(() => {
     if (!open) return;
 
-    // reset visibilities
+    // RESET VISIBILITIES
     gsap.set([loaderRef.current, appRef.current, exitRef.current], {
       autoAlpha: 0,
     });
@@ -122,6 +214,7 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
         { scaleX: 0, transformOrigin: "0% 50%", duration: 0.8 },
         "<0.2"
       )
+
       // GLITCH EFFECT
       .to(
         ".boot-title",
@@ -129,6 +222,7 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
         "<"
       )
       .to({}, { duration: 0.5 })
+
       // TRANSITION TO APP
       .to(loaderRef.current, { autoAlpha: 0, duration: 0.3 })
       .call(() => setPhase("app"))
@@ -156,13 +250,15 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
 
   // EXIT
   useEffect(() => {
-    if (phase !== "exiting") return;
+    if (phase !== "exiting") return; // exits early cleanly
+
     const tl = gsap.timeline({
       onComplete: () => {
         onClose();
         setPhase("loading");
       },
     });
+
     tl.set(exitRef.current, { autoAlpha: 1 })
       .to(appRef.current, { autoAlpha: 0, duration: 0.4 })
       .fromTo(
@@ -171,7 +267,10 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
         { y: "100%", duration: 0.6, ease: "power2.in" }
       )
       .to(exitRef.current, { autoAlpha: 0, duration: 0.2 });
-    return () => tl.kill();
+
+    return () => {
+      tl.kill();
+    };
   }, [phase, onClose]);
 
   if (!open) return null;
@@ -191,7 +290,7 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
       {/* LOADING SCREEN */}
       <div ref={loaderRef} className="absolute inset-0 grid place-items-center">
         <div className="w-[min(92vw,720px)] rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-secondary)] p-6 shadow-xl">
-          <div className="boot-title boot-line font-heading text-xl text-[color:var(--color-accent)]">
+          <div className="boot-title boot-line font-heading text-xl text-[color:var(--color-main)]">
             Booting Developer Mode…
           </div>
           <div className="mt-3 space-y-1 font-mono text-sm text-[color:var(--color-sub-text)]">
@@ -200,7 +299,7 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
             <div className="boot-line">Spinning up sandboxes</div>
           </div>
           <div className="mt-5 h-2 w-full bg-[color:var(--color-border)]/40 rounded">
-            <div className="boot-bar h-2 w-full bg-[color:var(--color-accent)] rounded" />
+            <div className="boot-bar h-2 w-full bg-[color:var(--color-main)] rounded" />
           </div>
           <p className="mt-3 font-mono text-xs text-[color:var(--color-sub-text)] opacity-80">
             Press{" "}
@@ -211,45 +310,138 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
           </p>
         </div>
       </div>
+
       {/* APP (FAKE IDE) */}
-      return ({/* APP (FAKE IDE) */}
+
       <div ref={appRef} className="absolute inset-0 p-4 sm:p-8">
         <div className="ide-shell h-full w-full rounded-2xl border border-[color:var(--color-border)] overflow-hidden bg-[#0a0a0a]">
-          {/* Title bar */}
-          <div className="flex items-center gap-2 px-4 h-10 border-b border-[color:var(--color-border)] bg-black/40">
-            <span
-              className="h-3 w-3 rounded-full bg-red-500/80 cursor-pointer hover:bg-red-500 transition-colors"
-              title="Close Developer Mode"
-              onClick={startExit}
-            />{" "}
-            <span
-              className="h-3 w-3 rounded-full bg-yellow-500/80 cursor-pointer hover:bg-yellow-400 transition-colors"
-              title="Minimize Window"
-              onClick={handleMinimize}
-            />{" "}
-            <span
-              className="h-3 w-3 rounded-full bg-green-500/80 cursor-pointer hover:bg-green-500 transition-colors"
-              title="Expand Window"
-              onClick={handleExpand}
-            />{" "}
-            <div className="ml-3 font-mono text-xs text-white/60">
-              ~/DevMode.tsx
-            </div>
-            <div className="ml-auto text-xs text-white/50">
-              Press Esc to exit
-            </div>
+
+          <div
+            className={[
+              "flex items-center h-10 border-b border-[color:var(--color-border)]",
+              os === "windows"
+                ? "justify-between bg-[#f3f3f3]/90 text-black/75"
+                : "gap-2 px-4 bg-black/40",
+            ].join(" ")}
+          >
+            {os === "windows" ? (
+              <>
+                {/* ---------- WINDOWS TITLE BAR ---------- */}
+                <div
+                  className="relative w-full h-9 bg-[#2d2d2d] text-white border-b border-black/20 select-none flex items-center"
+                  style={{
+                    fontFamily: `"Segoe UI Variable", "Segoe UI", "Helvetica Neue", Arial, sans-serif`,
+                    fontSize: "13px",
+                    letterSpacing: "-0.2px",
+                  }}
+                >
+                  {/* LEFT: VS CODE ICON + TITLE */}
+                  <div className="flex items-center gap-2 pl-3">
+                    <VscVscode
+                      className="text-[#007ACC] text-lg shrink-0"
+                      aria-hidden
+                    />
+                    <div className="opacity-90">Developer Mode</div>
+                  </div>
+
+                  {/* RIGHT: WINDOW CONTROL BUTTONS */}
+                  <div className="absolute right-0 top-0 flex items-stretch">
+                    {/* MINIMISE */}
+                    <button
+                      type="button"
+                      title="Minimize"
+                      onClick={handleMinimize}
+                      className="w-11 h-9 grid place-items-center hover:bg-[#3b3b3b] transition-colors"
+                    >
+                      <svg width="10" height="10" viewBox="0 0 10 10">
+                        <rect
+                          x="1"
+                          y="7"
+                          width="8"
+                          height="1.2"
+                          rx=".6"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </button>
+
+                    {/* MAXIMISE */}
+                    <button
+                      type="button"
+                      title="Maximize"
+                      onClick={handleExpand}
+                      className="w-11 h-9 grid place-items-center hover:bg-[#3b3b3b] transition-colors"
+                    >
+                      <svg width="10" height="10" viewBox="0 0 10 10">
+                        <rect
+                          x="1.5"
+                          y="1.5"
+                          width="7"
+                          height="7"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.2"
+                        />
+                      </svg>
+                    </button>
+                    {/* CLOSE */}
+                    <button
+                      type="button"
+                      title="Close"
+                      onClick={startExit}
+                      className="w-11 h-9 grid place-items-center hover:bg-[#c42b1c] hover:text-white transition-colors"
+                    >
+                      <svg width="10" height="10" viewBox="0 0 10 10">
+                        <path
+                          d="M2 2l6 6M8 2L2 8"
+                          stroke="currentColor"
+                          strokeWidth="1.4"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* ---------- MAC TITLE BAR ---------- */}
+                <div className="flex items-center gap-2">
+                  <span
+                    className="h-3 w-3 rounded-full bg-red-500/80 cursor-pointer hover:bg-red-500 transition-colors"
+                    title="Close Developer Mode"
+                    onClick={startExit}
+                  />
+                  <span
+                    className="h-3 w-3 rounded-full bg-yellow-500/80 cursor-pointer hover:bg-yellow-400 transition-colors"
+                    title="Minimize Window"
+                    onClick={handleMinimize}
+                  />
+                  <span
+                    className="h-3 w-3 rounded-full bg-green-500/80 cursor-pointer hover:bg-green-500 transition-colors"
+                    title="Expand Window"
+                    onClick={handleExpand}
+                  />
+                  <div className="ml-3 font-mono text-xs text-white/60">
+                    ~/DevMode.tsx
+                  </div>
+                </div>
+                <div className="ml-auto pr-2 text-xs text-white/50">
+                  Press Esc to exit
+                </div>
+              </>
+            )}
           </div>
 
-          {/* Body split */}
+          {/* CONTAINER */}
           <div className="grid grid-cols-12 h-[calc(100%-2.5rem)]">
-            {/* Sidebar */}
-            {/* Sidebar */}
+            {/* EXPLORER SIDE BAR */}
             <aside className="col-span-3 lg:col-span-2 h-full border-r border-[color:var(--color-border)] bg-white/[0.02] p-3 overflow-y-auto">
               <div className="font-mono text-xs text-white/60 mb-2 flex items-center gap-2">
                 explorer
               </div>
               <ul className="space-y-1 text-white/80 font-mono text-sm select-none">
-                {/* public folder */}
+                {/* FOLDERS */}
                 <li className="ide-line flex items-center gap-2">
                   <FaFolder className="text-[#F59E0B]" />
                   <span>.vscode</span>
@@ -258,26 +450,18 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
                   <FaFolder className="text-[#34D399]" />
                   <span>public</span>
                 </li>
-
-                {/* src folder */}
                 <li className="ide-line flex items-center gap-2">
                   <FaFolderOpen className="text-[#60A5FA]" />
                   <span>src</span>
                 </li>
-
-                {/* └── app folder */}
                 <li className="ide-line flex items-center gap-2 ml-5">
                   <FaFolderOpen className="text-[#9575cd]" />
                   <span>app</span>
                 </li>
-
-                {/* └── components folder */}
                 <li className="ide-line flex items-center gap-2 ml-10">
                   <FaFolderOpen className="text-[#F472B6]" />
                   <span>components</span>
                 </li>
-
-                {/* files under components */}
                 <li className="ide-line flex items-center gap-2 ml-14">
                   <FaReact className="text-[#61DBFB]" />
                   <span>Avatar.tsx</span>
@@ -336,14 +520,14 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
                 </li>
               </ul>
             </aside>
-            {/* Editor */}
+            {/* EDITOR TABS */}
             <main className="col-span-9 lg:col-span-10 h-full relative bg-[#0b0f12]">
               {/* <div className="h-9 border-b border-[color:var(--color-border)] flex items-center px-4 gap-4 text-white/70 text-sm">
                 <span className="ide-line">Avatar.tsx</span>
                 <span className="ide-line">Statement.tsx</span>
                 <span className="ide-line">Projects.tsx</span>
               </div> */}
-
+            {/* EDITOR CONTENT */}
               <div className="p-4 overflow-auto h-[calc(100%-2.25rem)]">
                 <pre className="font-mono text-[13px] sm:text-[14px] leading-[1.6] whitespace-pre text-white/85">
                   <code>
@@ -403,7 +587,7 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
                       {P(";")}
                     </CodeLine>
                     <CodeLine>{P("}")}</CodeLine>
-                    <CodeLine />
+                    <CodeLine/>
 
                     <CodeLine>
                       {C("/* ============================ */")}
@@ -544,7 +728,7 @@ export default function DevModeOverlay({ open, onClose }: DevModeOverlayProps) {
       {/* EXITING OVERLAY */}
       <div ref={exitRef} className="absolute inset-0 grid place-items-center">
         <div className="relative w-full h-full">
-          <div className="exit-scan absolute inset-x-0 h-24 bg-[color:var(--color-accent)]/20 blur-md" />
+          <div className="exit-scan absolute inset-x-0 h-24 bg-[color:var(--color-main)]/20 blur-md" />
           <div className="absolute inset-0 grid place-items-center">
             <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-secondary)]/90 px-6 py-4 shadow-lg">
               <p className="font-heading text-lg text-[color:var(--color-text)]">

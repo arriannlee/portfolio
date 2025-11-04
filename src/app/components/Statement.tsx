@@ -74,7 +74,7 @@ export default function Statement() {
             className={[
               "block text-[clamp(2.8rem,11vw,9.5rem)] sm:text-[clamp(3.5rem,9vw,11rem)] lg:text-[clamp(4rem,8vw,12rem)] transition-colors duration-300",
               i === WORDS.length - 1
-                ? "text-[color:var(--color-accent)] hover:text-[color:var(--color-accent-hover)]"
+                ? "text-[color:var(--color-main)] hover:text-[color:var(--color-accent)]"
                 : "text-[color:var(--color-text)]",
             ].join(" ")}
           >

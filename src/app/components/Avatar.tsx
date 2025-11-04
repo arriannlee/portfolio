@@ -151,6 +151,7 @@ export default function Avatar() {
                       cx="15090"
                       cy="226"
                       r="57"
+                      fill="#00c2b2"
                       fillOpacity={0.2}
                     />
                     <clipPath id="_clip2">
@@ -178,6 +179,7 @@ export default function Avatar() {
                       cx="15090"
                       cy="226"
                       r="57"
+                      fill="#00c2b2"
                       fillOpacity={0.2}
                     />
                     <clipPath id="_clip3">

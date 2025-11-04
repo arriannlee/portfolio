@@ -101,7 +101,7 @@ function ProjectCard({ project, tall = false }: { project: Project; tall?: boole
     >
       <div className="grid grid-cols-5 h-full">
         <div className="col-span-5 md:col-span-2 p-6 flex flex-col justify-end">
-          <h3 className="font-heading text-2xl text-[color:var(--color-accent)]">
+          <h3 className="font-heading text-2xl text-[color:var(--color-main)]">
             {project.title}
           </h3>
           <p className="mt-2 font-body text-sub-text leading-relaxed">

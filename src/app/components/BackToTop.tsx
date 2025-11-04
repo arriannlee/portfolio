@@ -62,7 +62,7 @@ export default function BackToTop() {
         className="
           px-1 font-heading uppercase tracking-[0.12em]
           text-[0.75rem] md:text-[0.8rem]
-          text-[color:var(--color-text)] hover:text-[color:var(--color-accent)]
+          text-[color:var(--color-text)] hover:text-[color:var(--color-main)]
           focus:outline-none focus-visible:underline
           bt-anim
         "
