@@ -247,7 +247,13 @@ export default function DevModeOverlay({
         e.preventDefault();
 
         // Get current override (or current season)
-        const seasons: Season[] = ["winter", "spring", "summer", "autumn"];
+        const seasons: Season[] = [
+          "christmas",
+          "winter",
+          "spring",
+          "summer",
+          "autumn",
+        ];
         const current =
           (localStorage.getItem("devmode.season") as Season) ||
           getSeasonFromMonth(new Date().getMonth());
@@ -268,13 +274,15 @@ export default function DevModeOverlay({
           left: "50%",
           transform: "translateX(-50%)",
           background:
-            next === "winter"
-              ? "rgba(0,120,255,0.8)"
-              : next === "spring"
-                ? "rgba(100,255,150,0.8)"
-                : next === "summer"
-                  ? "rgba(255,220,40,0.8)"
-                  : "rgba(255,120,0,0.8)", // autumn
+            next === "christmas"
+              ? "rgba(255, 0, 0, 0.8)"
+              : next === "winter"
+                ? "rgba(0,120,255,0.8)"
+                : next === "spring"
+                  ? "rgba(100,255,150,0.8)"
+                  : next === "summer"
+                    ? "rgba(255,220,40,0.8)"
+                    : "rgba(255,120,0,0.8)", // autumn
           color: "white",
           padding: "8px 18px",
           borderRadius: "8px",
@@ -682,23 +690,27 @@ export default function DevModeOverlay({
   };
 
   // ===== Seasonal Helper =====
-  type Season = "winter" | "spring" | "summer" | "autumn";
+  type Season = "christmas" | "winter" | "spring" | "summer" | "autumn";
 
   // Determine current season from month number
   const getSeasonFromMonth = (m: number): Season =>
-    [11, 0, 1].includes(m)
-      ? "winter"
-      : [2, 3, 4].includes(m)
-        ? "spring"
-        : [5, 6, 7].includes(m)
-          ? "summer"
-          : "autumn";
+    [11].includes(m)
+      ? "christmas"
+      : [0, 1].includes(m)
+        ? "winter"
+        : [2, 3, 4].includes(m)
+          ? "spring"
+          : [5, 6, 7].includes(m)
+            ? "summer"
+            : "autumn";
 
   // Get emoji set for a specific season
   const getSeasonalEmojis = (season: Season): string[] => {
     switch (season) {
+      case "christmas":
+        return ["🎄", "🎅", "🤶", "🦌", "🎁", "⭐", "🕯️", "🍪", "🧦", "🎶"];
       case "winter":
-        return ["❄️", "☃️", "🌨️", "🧊", "🎄", "🎁", "🦌"];
+        return ["❄️", "☃️", "🌨️", "🧊", "🔥", "🧣", "🧤", "⛷️", "🏂"];
       case "spring":
         return ["🌸", "🌷", "🌼", "🌿", "🐝", "🦋", "🐇"];
       case "summer":
@@ -1282,19 +1294,19 @@ export default function DevModeOverlay({
                     {[
                       {
                         title: "Beat The Bot",
-                        type: "Web Game",
+                        // type: "Web Game",
                         stack: ['"HTML"', '"CSS"', '"JS"'],
                         repo: "https://github.com/arriannlee/rock_paper_scissors",
                       },
                       {
                         title: "ATL Pro FX",
-                        type: "E-Commerce Site",
+                        // type: "E-Commerce Site",
                         stack: ['"WordPress"', '"WooCommerce"', '"PHP"'],
                         repo: "https://github.com/arriannlee/atlprofx",
                       },
                       {
                         title: "Beautique Salon",
-                        type: "Service Website",
+                        // type: "Service Website",
                         stack: ['"HTML"', '"CSS"', '"JavaScript"'],
                         repo: "https://github.com/arriannlee/beautique",
                       },
@@ -1345,8 +1357,8 @@ export default function DevModeOverlay({
                       {"\u00A0\u00A0"}
                       {P("email")}:{" "}
                       {S(
-                        <a href="mailto:hello@arriannlee.dev">
-                          "hello@arriannlee.dev"
+                        <a href="mailto:hello@arriannlee.xyz">
+                          "hello@arriannlee.xyz"
                         </a>
                       )}
                       {P(",")}
@@ -1360,7 +1372,7 @@ export default function DevModeOverlay({
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          "https://www.linkedin.com/in/arriannlee/"
+                          "https://linkedin.com/in/arriannlee/"
                         </a>
                       )}
                       {P(",")}
@@ -1384,7 +1396,14 @@ export default function DevModeOverlay({
                       {P(";")}
                     </CodeLine>
                     <CodeLine />
-                    {/* <CodeLine>{C("// Press ESC to exit DEV_MODE")}</CodeLine> */}
+                    <CodeLine>
+                      {C("// ")}
+                      <span className="relative group">
+                        <span className="hidden-hint text-transparent bg-[color:var(--color-bg-accent)] bg-clip-text transition-colors duration-300 group-hover:text-[color:var(--color-accent)]">
+                          Press CMD + SHIFT + H to open HACKER MODE 😎
+                        </span>
+                      </span>
+                    </CodeLine>
                     <CodeLine>
                       {C(
                         `// © ${currentYear} Arriann Lee. All rights reserved.`
