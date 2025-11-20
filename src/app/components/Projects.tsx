@@ -1,124 +1,247 @@
-'use client'
+"use client";
 
-import { useEffect, useRef } from 'react'
-import { useGSAP } from '@gsap/react' // eslint-disable-line no-unused-vars
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { PROJECTS, type Project } from "@/lib/projects";
 
-gsap.registerPlugin(ScrollTrigger)
-
-type Project = {
-  id: string
-  title: string
-  blurb: string
-  link: string
-}
-const PROJECTS: Project[] = [
-  { id: 'p1', title: 'Project One', blurb: 'description', link: 'https://project.com'},
-  { id: 'p2', title: 'Project Two', blurb: 'description', link: 'https://project.com' },
-  { id: 'p3', title: 'Project Three', blurb: 'description', link: 'https://project.com' },
-  { id: 'p4', title: 'Project Four', blurb: 'description', link: 'https://project.com' },
-]
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Projects() {
-  const trackRef = useRef<HTMLDivElement>(null)
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const [previewProject, setPreviewProject] = useState<Project | null>(null);
 
-  // desktop: map vertical wheel → horizontal scroll (natural feel)
   useEffect(() => {
-    const el = trackRef.current
-    if (!el) return
-    const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        el.scrollLeft += e.deltaY
-        e.preventDefault()
-      }
-    }
+    if (!rootRef.current) return;
 
-    const mql = window.matchMedia('(min-width: 1024px)')
-    const enable = () => el.addEventListener('wheel', onWheel, { passive: false })
-    const disable = () => el.removeEventListener('wheel', onWheel)
-    if (mql.matches) enable()
-    const onChange = () => (mql.matches ? enable() : disable())
-    mql.addEventListener('change', onChange)
-    return () => {
-      disable()
-      mql.removeEventListener('change', onChange)
-    }
-  }, [])
+    const ctx = gsap.context(() => {
+      const sections = gsap.utils.toArray<HTMLElement>(".panel");
+      if (!sections.length) return;
+
+      // Ensure all panels start in place
+      gsap.set(sections, { xPercent: 0 });
+
+      // Timeline that controls panel transitions
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: rootRef.current,
+          pin: true,
+          scrub: 1,
+          // markers: true,
+          snap: {
+            snapTo: (value) => Math.round(value), // snap between panels
+            duration: 0.3,
+            delay: 0,
+            ease: "power1.out",
+          },
+          end: () => "+=" + window.innerHeight * (sections.length - 1),
+        },
+      });
+
+      // For each panel after the first, slide it in over the previous one
+      sections.forEach((panel, index) => {
+        if (index === 0) return; // first panel is already visible
+
+        tl.fromTo(
+          panel,
+          { xPercent: 100 }, // start offscreen to the right
+          { xPercent: 0, duration: 1, ease: "none" }, // slide in over the previous
+          index - 1 // each step of scroll moves to the next panel
+        );
+      });
+    }, rootRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section className="px-4 sm:px-6 lg:px-0 py-16 lg:py-0 lg:min-h-dvh lg:flex lg:items-center">
-      {/* Heading (kept visible for all) */}
-      <h2 className="sr-only">Selected Work</h2>
-
-      {/* Mobile/Tablet: vertical list */}
-      <div className="grid gap-8 lg:hidden">
-        {PROJECTS.map((p) => (
-          <ProjectCard key={p.id} project={p} />
-        ))}
-      </div>
-
-      {/* Desktop: horizontal scroller */}
-<div
-  ref={trackRef}
-  role="region"
-  aria-label="Projects"
-  tabIndex={0}
-  className="
-    hidden lg:flex lg:items-center
-    overflow-x-auto no-scrollbar
-    snap-x snap-mandatory
-    gap-[8.333vw]
-    /* this creates 1 extra column of space before the first card */
-    px-[calc(8.333vw*2)]  /* twice the gap = about one extra col */
-    w-full
-  "
->
-        {PROJECTS.map((p) => (
+    <section
+      ref={rootRef}
+      style={{
+        position: "relative",
+        height: "100vh",
+        width: "100%",
+        overflow: "hidden",
+        color: "white",
+      }}
+    >
+      {/* Stack panels on top of each other */}
+      <div className="relative h-full w-full">
+        {PROJECTS.map((project: Project, index) => (
           <div
-            key={p.id}
-            className="
-              /* each slide = 8/12 viewport width = 66.666vw */
-              w-[66.666vw] flex-none snap-start
-            "
+            key={project.id}
+            className="panel"
+            style={{
+              position: "absolute",
+              inset: 0,
+              zIndex: index, // later panels naturally sit above earlier ones
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: project.color,
+              padding: "2rem",
+            }}
           >
-            <ProjectCard project={p} tall />
+            <div
+              style={{
+                maxWidth: "1000px",
+                width: "100%",
+                display: "grid",
+                gridTemplateColumns: "minmax(0, 1.3fr) minmax(0, 1fr)",
+                gap: "3rem",
+                alignItems: "center",
+              }}
+            >
+              {/* PROJECT TEXT */}
+              <div>
+                {/* TITLE */}
+                <h2
+                  style={{
+                    fontSize: "clamp(2rem, 4vw, 3rem)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.2em",
+                    marginBottom: "0.5rem",
+                  }}
+                >
+                  {project.title}
+                </h2>
+
+                {/* TECH STACK — inline, subtle, metadata style */}
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "0.35rem",
+                    marginBottom: "1.2rem",
+                    opacity: 0.7,
+                    fontSize: "0.75rem",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.08em",
+                  }}
+                >
+                  {project.stack.map((item, i) => (
+                    <span key={item}>
+                      {item}
+                      {i < project.stack.length - 1 && (
+                        <span style={{ margin: "0 0.25rem" }}>•</span>
+                      )}
+                    </span>
+                  ))}
+                </div>
+
+                {/* DESCRIPTION */}
+                <p
+                  style={{
+                    fontSize: "1.1rem",
+                    marginBottom: "1.25rem",
+                    opacity: 0.9,
+                    maxWidth: "48ch",
+                  }}
+                >
+                  {project.description}
+                </p>
+
+                {project.link && (
+                  <a
+                    aria-label={`View live project: ${project.title}`}
+                    href={project.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-text bg-white/90 text-slate-900 dark:bg-white/90"
+                  >
+                    View live project
+                  </a>
+                )}
+              </div>
+
+              {/* Screenshot card */}
+              <div className="w-full max-w-[420px] justify-self-center">
+                <button
+                  type="button"
+                  className="
+                    group relative w-full aspect-[4/3]
+                    overflow-hidden rounded-2xl
+                    border border-white/30
+                    bg-black/30 shadow-2xl
+                  "
+                  onClick={() => {
+                    if (project.link) setPreviewProject(project);
+                  }}
+                >
+                  {project.image ? (
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="
+                        w-full h-full object-cover
+                        transition-transform duration-300
+                        group-hover:scale-[1.02]
+                      "
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-sm text-white/70">
+                      Screenshot coming soon
+                    </div>
+                  )}
+
+                  {project.link && (
+                    <div
+                      className="
+                        absolute inset-0 flex items-center justify-center
+                        bg-black/70
+                        opacity-0 group-hover:opacity-100
+                        transition-opacity duration-200
+                      "
+                    >
+                      <span className="text-xs sm:text-sm tracking-[0.25em] uppercase text-white/90">
+                        Live preview · click
+                      </span>
+                    </div>
+                  )}
+                </button>
+              </div>
+            </div>
           </div>
         ))}
       </div>
-    </section>
-  )
-}
 
-function ProjectCard({ project, tall = false }: { project: Project; tall?: boolean }) {
-  return (
-    <article
-      className={[
-        "project-card", // 👈 hook
-        "rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-secondary)] overflow-hidden",
-        tall ? "h-[70dvh]" : "aspect-video",
-      ].join(" ")}
-    >
-      <div className="grid grid-cols-5 h-full">
-        <div className="col-span-5 md:col-span-2 p-6 flex flex-col justify-end">
-          <h3 className="font-heading text-2xl text-[color:var(--color-main)]">
-            {project.title}
-          </h3>
-          <p className="mt-2 font-body text-sub-text leading-relaxed">
-            {project.blurb}
-          </p>
-        </div>
-        <div className="col-span-5 md:col-span-3">
+      {/* Live preview modal – simple full-height window */}
+      {previewProject?.link && (
+        <div
+          className="
+            fixed inset-0 z-[1200]
+            bg-black/80 backdrop-blur-sm
+            flex items-center justify-center
+            p-4
+          "
+          onClick={() => setPreviewProject(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${previewProject.title} live preview`}
+        >
           <div
-            aria-hidden
             className="
-              parallax-pane  /* 👈 hook for parallax */
-              w-full h-full bg-[color:var(--color-bg)]
-              border-t md:border-t-0 md:border-l border-[color:var(--color-border)]
+              relative w-full max-w-6xl h-[90vh]
+              bg-black rounded-2xl overflow-hidden
+              border border-white/30
             "
-          />
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setPreviewProject(null)}
+              className="btn btn-icon absolute top-3 right-3 bg-black/70 text-white z-10"
+            >
+              ✕
+            </button>
+
+            <iframe
+              src={previewProject.link}
+              title={previewProject.title}
+              className="w-full h-full border-none"
+            />
+          </div>
         </div>
-      </div>
-    </article>
+      )}
+    </section>
   );
 }

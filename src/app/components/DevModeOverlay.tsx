@@ -138,11 +138,11 @@ export default function DevModeOverlay({
     localStorage.setItem("devmode.hacker", "0");
   }, [DEFAULT_LOG]);
 
+  // GLITCH EFFECT
+
   const glitchOnce = useCallback(() => {
     if (!appRef.current) return;
     const el = appRef.current;
-
-    // quick scanline overlay (auto-removed)
     const bars = document.createElement("div");
     Object.assign(bars.style, {
       position: "absolute",
@@ -181,6 +181,7 @@ export default function DevModeOverlay({
   // choose what to flip:
 
   // TOGGLE HACKER MODE WITH CMD/CTRL + SHIFT + H
+
   useEffect(() => {
     const isMac = /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent);
 
@@ -210,7 +211,8 @@ export default function DevModeOverlay({
     return () => window.removeEventListener("keydown", onKey);
   }, [hacker, glitchOnce]);
 
-  // OS MODE TESTING (Cmd/Ctrl + Shift + O)
+  // OS MODE TESTING  TOGGLE OS WITH CMD/CTRL + SHIFT + O
+
   useEffect(() => {
     const isMac = /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent);
 
@@ -221,8 +223,6 @@ export default function DevModeOverlay({
         e.preventDefault();
         const next = os === "windows" ? "mac" : "windows";
         localStorage.setItem("devmode.os", next);
-
-        // Simple hard reload so styles/branches flip cleanly
         location.reload();
       }
     };
@@ -238,7 +238,8 @@ export default function DevModeOverlay({
     document.documentElement.setAttribute("data-os", resolved);
   }, [forceOs]);
 
-  // CYCLE SEASON MODE (Cmd/Ctrl + Shift + S)
+  // CYCLE SEASON IN HACKER MODE CMD / CTRL + SHIFT + S
+
   useEffect(() => {
     const isMac = /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent);
     const onKey = (e: KeyboardEvent) => {

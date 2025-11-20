@@ -16,7 +16,7 @@ export default function ThemeToggle() {
       aria-label="Toggle Theme"
       type="button"
       onClick={toggle}
-      className="p-3 rounded-lg hover:bg-black/10 dark:hover:bg-white/10 transition"
+      className="btn btn-icon"
     >
       {/* During SSR + first client render, show a neutral placeholder to avoid mismatch */}
       {!mounted ? (

@@ -306,9 +306,9 @@ html {
     transform: translateY(0);
   }
 }
-.animate-fadeIn {
+/* .animate-fadeIn {
   animation: fadeIn 0.4s ease-out both;
-}
+} */
 
 @keyframes flicker {
   0%,
@@ -335,6 +335,19 @@ html {
   .bt-anim {
     animation: none;
   }
+}
+
+.btn {
+  @apply rounded-lg transition
+         hover:bg-black/10 dark:hover:bg-white/10;
+}
+
+.btn-icon {
+  @apply p-3 flex items-center justify-center;
+}
+
+.btn-text {
+  @apply px-4 py-2 text-sm font-medium inline-flex items-center justify-center;
 }
 
 ::selection {

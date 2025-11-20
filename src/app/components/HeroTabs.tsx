@@ -1,6 +1,5 @@
 "use client";
-
-import { useId, useState, KeyboardEvent } from "react";
+import { useId, useState, useEffect, KeyboardEvent } from "react";
 
 type Props = {
   onEngineersClick?: () => void;
@@ -31,7 +30,12 @@ const TABS = [
 
 export default function HeroTabs({ onEngineersClick }: Props) {
   const [active, setActive] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const baseId = useId();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
     const last = TABS.length - 1;
@@ -55,19 +59,18 @@ export default function HeroTabs({ onEngineersClick }: Props) {
 
   return (
     <div className="w-full">
-      {/* Tablist */}
+      {/* Tabs */}
       <div
         role="tablist"
         aria-orientation="horizontal"
         aria-label="Audience"
         onKeyDown={onKeyDown}
-        className="flex items-center justify-start w-full gap-x-4 gap-y-2 mb-2 overflow-x-auto no-scrollbar snap-x snap-mandatory px-0
+        className="flex items-center gap-x-4 gap-y-2 mb-2 overflow-x-auto no-scrollbar snap-x snap-mandatory
                    [mask-image:linear-gradient(to_right,black_92%,transparent_100%)]
                    md:overflow-visible md:snap-none md:flex-wrap md:[mask-image:none]"
       >
         {TABS.map((tab, i) => {
           const selected = i === active;
-          const isEngineers = tab.id === "four";
           return (
             <button
               key={tab.id}
@@ -76,9 +79,9 @@ export default function HeroTabs({ onEngineersClick }: Props) {
               aria-selected={selected}
               aria-controls={`${baseId}-panel-${tab.id}`}
               tabIndex={selected ? 0 : -1}
-              onClick={() => setActive(i)} // just switch tabs now
+              onClick={() => setActive(i)}
               className={[
-                "role-tab py-2 px-2 first:pl-0 rounded-lg text-sm sm:text-base transition-all shrink-0 snap-start md:snap-none",
+                "role-tab py-2 px-2 rounded-lg text-sm sm:text-base transition-all shrink-0 snap-start",
                 selected
                   ? "text-[color:var(--color-main)]"
                   : "text-[color:var(--color-text)] hover:text-[color:var(--color-accent)]",
@@ -107,18 +110,20 @@ export default function HeroTabs({ onEngineersClick }: Props) {
                 <p className="font-body text-lg sm:text-xl leading-relaxed text-sub-text max-w-prose">
                   I’m creative coded, {"{!yet}"} a full engineer but fluent
                   enough to build {"{"}
-                  {/* OPTION A: overlay button */}
-                  <button
-                    type="button"
-                    onClick={onEngineersClick}
-                    className="underline decoration-[color:var(--color-main)] underline-offset-2 text-[color:var(--color-main)]
-                               hover:text-[color:var(--color-accent-hover)] focus-visible:outline-none focus-visible:ring-2
-                               focus-visible:ring-[color:var(--color-main)] focus-visible:ring-offset-2 rounded transition-colors"
-                  >
-                    this.site
-                  </button>
-                  {"} "}
-                  and a few others along the way.
+                  {mounted ? (
+                    <button
+                      type="button"
+                      onClick={onEngineersClick}
+                      className="underline decoration-[color:var(--color-main)] underline-offset-2 text-[color:var(--color-main)]
+                   hover:text-[color:var(--color-accent-hover)] focus-visible:outline-none focus-visible:ring-2
+                   focus-visible:ring-[color:var(--color-main)] focus-visible:ring-offset-2 rounded transition-colors"
+                    >
+                      this.site
+                    </button>
+                  ) : (
+                    <span>this.site</span>
+                  )}
+                  {"}"} and a few others along the way.
                 </p>
               ) : (
                 <p className="font-body text-lg sm:text-xl leading-relaxed text-sub-text max-w-prose">
