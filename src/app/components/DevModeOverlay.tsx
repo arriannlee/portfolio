@@ -180,6 +180,15 @@ export default function DevModeOverlay({
   }, []);
   // choose what to flip:
 
+  // RESTORE HACKER MODE FROM LOCALSTORAGE ON MOUNT
+  useEffect(() => {
+    const saved = localStorage.getItem("devmode.hacker");
+    if (saved === "1") {
+      setHacker(true);
+      setShowTerminal(true);
+    }
+  }, []);
+
   // TOGGLE HACKER MODE WITH CMD/CTRL + SHIFT + H
   useEffect(() => {
     const isMac = /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent);
