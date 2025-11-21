@@ -1,3 +1,12 @@
+export type Project = {
+  id: string;
+  title: string;
+  description: string;
+  stack: string[];
+  image: string;
+  color: string;
+  link: string; // or link?: string; if some don't have links
+};
 export const PROJECTS: Project[] = [
   {
     id: "mojito",

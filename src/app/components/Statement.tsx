@@ -23,7 +23,6 @@ export default function Statement() {
       scrollTrigger: {
         trigger: sectionRef.current,
         start: "top 80%",
-        markers: true,
       },
       duration: 1,
       ease: "power2.out",

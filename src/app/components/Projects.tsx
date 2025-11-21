@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 import { PROJECTS, type Project } from "@/lib/projects";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -11,105 +12,220 @@ export default function Projects() {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [previewProject, setPreviewProject] = useState<Project | null>(null);
 
+  // GSAP SCROLLER – HORIZONTAL ON DESKTOP, VERTICAL ON TABLET/MOBILE
   useEffect(() => {
     if (!rootRef.current) return;
 
-    const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia();
+
+    // 💻 DESKTOP: HORIZONTAL SLIDER
+    mm.add("(min-width: 1024px)", () => {
       const sections = gsap.utils.toArray<HTMLElement>(".panel");
       if (!sections.length) return;
 
-      // Ensure all panels start in place
-      gsap.set(sections, { xPercent: 0 });
+      const firstPanel = sections[0];
+      if (!firstPanel) return;
 
-      // Timeline that controls panel transitions
+      gsap.set(sections, { xPercent: 0, yPercent: 0 });
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: rootRef.current,
           pin: true,
           scrub: 1,
-          // markers: true,
+          end: () => "+=" + firstPanel.offsetWidth * (sections.length - 1),
           snap: {
-            snapTo: (value) => Math.round(value), // snap between panels
+            snapTo: (value) => {
+              const step = 1 / (sections.length - 1);
+              return Math.round(value / step) * step;
+            },
             duration: 0.3,
             delay: 0,
             ease: "power1.out",
           },
-          end: () => "+=" + window.innerHeight * (sections.length - 1),
         },
       });
 
-      // For each panel after the first, slide it in over the previous one
       sections.forEach((panel, index) => {
-        if (index === 0) return; // first panel is already visible
+        if (index === 0) return;
 
         tl.fromTo(
           panel,
-          { xPercent: 100 }, // start offscreen to the right
-          { xPercent: 0, duration: 1, ease: "none" }, // slide in over the previous
-          index - 1 // each step of scroll moves to the next panel
+          { xPercent: 100, yPercent: 0 },
+          { xPercent: 0, yPercent: 0, duration: 1, ease: "none" },
+          index - 1
         );
       });
-    }, rootRef);
 
-    return () => ctx.revert();
+      return () => {
+        tl.kill();
+      };
+    });
+
+    // 📱 TABLET & MOBILE: VERTICAL SLIDER
+    mm.add("(max-width: 1023px)", () => {
+      const sections = gsap.utils.toArray<HTMLElement>(".panel");
+      if (!sections.length) return;
+
+      const firstPanel = sections[0];
+      if (!firstPanel) return;
+
+      gsap.set(sections, { xPercent: 0, yPercent: 0 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: rootRef.current,
+          pin: true,
+          scrub: 1,
+          end: () => "+=" + window.innerHeight * (sections.length - 1),
+          snap: {
+            snapTo: (value) => {
+              const step = 1 / (sections.length - 1);
+              return Math.round(value / step) * step;
+            },
+            duration: 0.3,
+            delay: 0,
+            ease: "power1.out",
+          },
+        },
+      });
+
+      sections.forEach((panel, index) => {
+        if (index === 0) return;
+
+        tl.fromTo(
+          panel,
+          { yPercent: 100, xPercent: 0 },
+          { yPercent: 0, xPercent: 0, duration: 1, ease: "none" },
+          index - 1
+        );
+      });
+
+      return () => {
+        tl.kill();
+      };
+    });
+
+    // cleanup all matchMedia stuff on unmount
+    return () => mm.revert();
   }, []);
 
   return (
     <section
       ref={rootRef}
-      style={{
-        position: "relative",
-        height: "100vh",
-        width: "100%",
-        overflow: "hidden",
-        color: "white",
-      }}
+      className="
+        relative h-screen w-screen
+        overflow-hidden text-white
+      "
     >
-      {/* Stack panels on top of each other */}
+      {/* STACK PANELS ON TOP OF EACH OTHER */}
       <div className="relative h-full w-full">
         {PROJECTS.map((project: Project, index) => (
           <div
             key={project.id}
-            className="panel"
+            className="
+              panel
+              absolute inset-0
+              flex items-center justify-center
+              px-6 py-10
+              lg:px-8 lg:py-0
+            "
             style={{
-              position: "absolute",
-              inset: 0,
-              zIndex: index, // later panels naturally sit above earlier ones
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
               background: project.color,
-              padding: "2rem",
+              zIndex: index,
             }}
           >
             <div
-              style={{
-                maxWidth: "1000px",
-                width: "100%",
-                display: "grid",
-                gridTemplateColumns: "minmax(0, 1.3fr) minmax(0, 1fr)",
-                gap: "3rem",
-                alignItems: "center",
-              }}
+              className="
+                max-w-[1000px] w-full
+                grid gap-8 items-center
+                grid-cols-1
+                lg:grid-cols-[1.3fr_1fr]
+              "
             >
-              {/* PROJECT TEXT */}
-              <div>
-                {/* TITLE */}
-                <h2
+              {/* IMAGE – FIRST ON MOBILE SECOND ON DESKTOP */}
+              <div className="w-full max-w-[520px] justify-self-center order-1 lg:order-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!project.link) return;
+
+                    // MOBILE: OPEN DIRECTLY IN NEW TAB
+                    if (window.innerWidth < 768) {
+                      window.open(project.link, "_blank");
+                      return;
+                    }
+
+                    // TABLET & DESKTOP: OPEN MODAL PREVIEW
+                    setPreviewProject(project);
+                  }}
+                  className="
+                    group relative w-full aspect-4/3
+                    overflow-hidden rounded-3xl
+                    bg-white/5 backdrop-blur-sm
+                    ring-1 ring-white/20
+                    shadow-[0_20px_40px_-10px_rgba(0,0,0,0.45)]
+                    transition-transform duration-300
+                    hover:-translate-y-1
+                    hover:scale-[1.03]
+                    hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)]
+                    cursor-pointer
+                  "
+                >
+                  {project.image && (
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 520px"
+                      className="
+                        object-cover
+                        transition-transform duration-500
+                      "
+                      priority={index === 0}
+                    />
+                  )}
+                </button>
+              </div>
+
+              {/* TEXT – SECOND ON MOBILE, FIRST ON DESKTOP */}
+              <div
+                className="
+    order-2 lg:order-1
+    md:px-10
+    md:py-6
+    md:max-w-[600px]
+  "
+              >
+                {" "}
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="
+                    block
+                    transition-transform
+                    duration-300
+                    cursor-pointer
+                    hover:scale-[1.03]
+                    hover:-translate-y-0.5
+                  "
                   style={{
                     fontSize: "clamp(2rem, 4vw, 3rem)",
                     textTransform: "uppercase",
                     letterSpacing: "0.2em",
                     marginBottom: "0.5rem",
+                    color: "white",
+                    display: "inline-block",
                   }}
                 >
                   {project.title}
-                </h2>
-
-                {/* TECH STACK — inline, subtle, metadata style */}
+                </a>
+                {/* TECH STACK */}
                 <div
                   style={{
                     display: "flex",
+                    flexWrap: "wrap",
                     gap: "0.35rem",
                     marginBottom: "1.2rem",
                     opacity: 0.7,
@@ -127,7 +243,6 @@ export default function Projects() {
                     </span>
                   ))}
                 </div>
-
                 {/* DESCRIPTION */}
                 <p
                   style={{
@@ -139,72 +254,13 @@ export default function Projects() {
                 >
                   {project.description}
                 </p>
-
-                {project.link && (
-                  <a
-                    aria-label={`View live project: ${project.title}`}
-                    href={project.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn btn-text bg-white/90 text-slate-900 dark:bg-white/90"
-                  >
-                    View live project
-                  </a>
-                )}
-              </div>
-
-              {/* Screenshot card */}
-              <div className="w-full max-w-[420px] justify-self-center">
-                <button
-                  type="button"
-                  className="
-                    group relative w-full aspect-[4/3]
-                    overflow-hidden rounded-2xl
-                    border border-white/30
-                    bg-black/30 shadow-2xl
-                  "
-                  onClick={() => {
-                    if (project.link) setPreviewProject(project);
-                  }}
-                >
-                  {project.image ? (
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="
-                        w-full h-full object-cover
-                        transition-transform duration-300
-                        group-hover:scale-[1.02]
-                      "
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-sm text-white/70">
-                      Screenshot coming soon
-                    </div>
-                  )}
-
-                  {project.link && (
-                    <div
-                      className="
-                        absolute inset-0 flex items-center justify-center
-                        bg-black/70
-                        opacity-0 group-hover:opacity-100
-                        transition-opacity duration-200
-                      "
-                    >
-                      <span className="text-xs sm:text-sm tracking-[0.25em] uppercase text-white/90">
-                        Live preview · click
-                      </span>
-                    </div>
-                  )}
-                </button>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Live preview modal – simple full-height window */}
+      {/* PREVIEW LIVE SITE MODAL */}
       {previewProject?.link && (
         <div
           className="
