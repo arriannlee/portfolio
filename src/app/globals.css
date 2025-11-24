@@ -35,7 +35,7 @@
   --color-highlight-text: #ffffff;
 
   --avatar-vertical-lines: var(--color-accent);
-  --avatar-color-2: rgba(0, 194, 178, 0.3);
+  /* --avatar-color-2: rgba(0, 194, 178, 0.3); */
 }
 
 /* DARK THEME */
