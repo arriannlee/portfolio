@@ -9,8 +9,17 @@
   --color-text: var(--color-text);
   --color-sub-text: var(--color-sub-text);
 
-  --color-main: var(--color-accent);
+  --brand-color-navy: #15003e;
+  --brand-color-purple: #6b00d7;
+  --brand-color-pink: #ff00a8;
+  --brand-color-teal: #00d1c1;
+  --brand-color-teal-soft: rgba(0, 194, 178, 0.3);
+  --brand-bg-light: #f3e8ff;
+
+  --color-main: var(--brand-color-pink);
+  --color-accent: var(--brand-color-teal);
   --color-accent-hover: var(--color-accent-hover);
+
   --color-highlight-bg: var(--color-highlight-bg);
   --color-highlight-text: var(--color-highlight-text);
 
@@ -19,76 +28,91 @@
   --font-dev: var(--font-dev);
 }
 
-/* LIGHT THEME */
+/* 🌤 LIGHT THEME (day mode) */
 :root {
-  --color-bg: #ffffff;
-  --color-bg-secondary: #f8f8f8;
-  --color-border: #eaeaea;
+  --color-bg: #f3e8ff; /* soft lilac */
+  --color-bg-secondary: #ffffff; /* cards / panels */
+  --color-border: #e7e3ef; /* soft lilac-grey */
 
-  --color-text: #1c1c1c;
-  --color-sub-text: #6c6c6c;
+  --color-text: #15003e; /* deep navy */
+  --color-sub-text: #3a2e59; /* muted navy */
 
-  --color-main: #ff5c5c;
-  --color-accent: #00c2b2;
+  --color-text: var(--brand-color-pink);
+  --color-accent: var(--brand-color-teal);
+  --color-accent-hover: var(--brand-color-teal);
 
-  --color-highlight-bg: var(--color-accent);
+  --color-highlight-bg: var(--brand-color-teal);
   --color-highlight-text: #ffffff;
 
-  --avatar-vertical-lines: var(--color-accent);
-  /* --avatar-color-2: rgba(0, 194, 178, 0.3); */
+  /* --avatar-vertical-lines: var(--color-accent); */
+  --avatar-color-2: rgba(0, 209, 193, 0.3);
 }
 
-/* DARK THEME */
+/* 🌑 DARK THEME (night mode) */
 html[data-theme="dark"] {
-  --color-bg: #0e0e0e;
-  --color-bg-secondary: #1a1a1a;
-  --color-border: #333333;
+  --color-bg: #15003e; /* deep navy */
+  --color-bg-secondary: #15003e; /* you can swap to a slightly lighter navy if needed */
+  --color-border: #2a145a; /* subtle purple/navy border */
 
-  --color-text: #f2f2f2;
-  --color-sub-text: #a1a1a1;
+  --color-text: #ffffff;
+  --color-sub-text: #f3e8ff; /* soft lilac for secondary text */
 
-  --color-main: #ff6464;
-  --color-accent: #00d1b2;
+  --color-main: #ff00a8; /* magenta CTA */
+  --color-accent: #00d1c1; /* teal accent */
+  --color-accent-hover: #6b00d7; /* purple hover */
 
-  --color-highlight-bg: var(--color-accent);
-  --color-highlight-text: #f2f2f2;
+  --color-highlight-bg: var(--color-main);
+  --color-highlight-text: #f3e8ff;
 
-  --avatar-vertical-lines: var(--color-text);
-  --avatar-color-2: rgba(0, 209, 178, 0.45);
+  /* --avatar-vertical-lines: var(--color-text); */
+  --avatar-color-2: rgba(0, 209, 193, 0.45);
 }
 
-/* SYSTEM */
+/* 🖥 SYSTEM THEME (follow OS if no explicit data-theme) */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --color-bg: #0e0e0e;
-    --color-bg-secondary: #1a1a1a;
-    --color-border: #333333;
+    --color-bg: #15003e;
+    --color-bg-secondary: #15003e;
+    --color-border: #2a145a;
 
-    --color-text: #f2f2f24 --color-sub-text: #a1a1a1;
+    --color-text: #ffffff;
+    --color-sub-text: #f3e8ff;
 
-    --color-main: #ff6464;
-    --color-accent: #00d1b2;
+    --color-main: #ff00a8;
+    --color-accent: #00d1c1;
+    --color-accent-hover: #6b00d7;
 
-    --color-highlight-bg: var(--color-accent);
-    --color-highlight-text: #f2f2f2;
+    --color-highlight-bg: var(--color-main);
+    --color-highlight-text: #f3e8ff;
 
-    --avatar-vertical-lines: var(--color-text);
-    --avatar-color-2: rgba(0, 209, 178, 0.5);
+    /* --avatar-vertical-lines: var(--color-text); */
+    --avatar-color-2: rgba(0, 209, 193, 0.5);
   }
 }
+
 /* AVATAR STYLES */
+
+.avatar-fill {
+  fill: var(--brand-color-teal-soft);
+}
+.avatar-outline {
+  fill: var(--brand-color-pink);
+}
+/* .avatar-vertical-lines {
+  fill: var(--brand-color-pink);
+} */
 
 .avatar-color-1,
 .avatar-face-shadow,
 .r-pupil-1,
 .l-pupil-1 {
-  fill: var(--color-main);
+  fill: var(--color-main); /* magenta */
 }
 
 .avatar-color-2,
 .r-pupil-2,
 .l-pupil-2 {
-  fill: var(--color-accent);
+  fill: var(--color-accent); /* teal */
 }
 
 .avatar-face-shadow {
@@ -96,19 +120,20 @@ html[data-theme="dark"] {
 }
 
 .avatar-face {
-  fill: var(--color-highlight-text);
+  fill: var(--color-highlight-text); /* light in both modes */
 }
 
 .avatar-highlight {
   fill: rgba(255, 255, 255, 0.5);
 }
+
 .avatar-base-color {
-  fill: #fff;
+  fill: #ffffff;
 }
 
-.avatar-vertical-lines {
+/* .avatar-vertical-lines {
   fill: var(--avatar-vertical-lines);
-}
+} */
 
 /* DEV MODE*/
 .code-keyword {
