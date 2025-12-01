@@ -180,6 +180,15 @@ export default function DevModeOverlay({
   }, []);
 
 
+  // RESTORE HACKER MODE FROM LOCALSTORAGE ON MOUNT
+  useEffect(() => {
+    const saved = localStorage.getItem("devmode.hacker");
+    if (saved === "1") {
+      setHacker(true);
+      setShowTerminal(true);
+    }
+  }, []);
+
   // TOGGLE HACKER MODE WITH CMD/CTRL + SHIFT + H
 
   useEffect(() => {
