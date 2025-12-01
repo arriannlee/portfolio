@@ -14,7 +14,7 @@ export default function Header() {
         onMouseLeave={() => setActive(false)}
         onFocus={() => setActive(true)}
         onBlur={() => setActive(false)}
-        className="inline-block font-heading text-2xl md:text-3xl tracking-tight text-accent select-none transition-all duration-300 focus:outline-none"
+        className="inline-block font-heading text-2xl md:text-3xl tracking-tight text-main select-none transition-all duration-300 focus:outline-none"
       >
         <span className="inline-block font-heading overflow-hidden transition-all duration-500 ease-in-out">
           {active ? (

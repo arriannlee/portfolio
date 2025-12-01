@@ -245,7 +245,6 @@ export default function Projects() {
                     ring-1 ring-white/20
                     shadow-[0_20px_40px_-10px_rgba(0,0,0,0.45)]
                     transition-transform duration-300
-                    hover:-translate-y-1
                     hover:scale-[1.03]
                     hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)]
                     cursor-pointer
@@ -369,7 +368,7 @@ export default function Projects() {
                 text-[color:var(--color-text)]
               "
             >
-              LET’S BUILD SOMETHING
+              LET’S BUILD SOMETHING{" "}
               <span className="text-[color:var(--color-main)]">TOGETHER</span>
             </h2>
 

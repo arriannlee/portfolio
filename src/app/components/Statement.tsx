@@ -13,23 +13,39 @@ export default function Statement() {
   const headingRef = useRef(null);
 
   useGSAP(() => {
-    // const split = new SplitText(headingRef.current, { type: "chars" });
-    // split.chars is now an array of <span> wrapped characters
-    const split = SplitText.create(".statementText", {
-      type: "chars, words, lines",
+    const split = new SplitText(headingRef.current, {
+      type: "chars",
+      reduceWhiteSpace: true,
     });
 
-    gsap.from(split.words, {
+    // BASELINE: start with distorted, blurry, slightly rotated text
+    gsap.set(split.chars, {
+      y: 120,
+      filter: "blur(12px)",
+      rotateX: 45,
+      opacity: 0,
+    });
+
+    // EPIC SCROLL-REVEAL
+    gsap.to(split.chars, {
       scrollTrigger: {
         trigger: sectionRef.current,
-        start: "top 80%",
+        // markers: true,
+        start: "top 90%",
+        end: "bottom 80%",
+        scrub: 1,
       },
-      duration: 1,
-      ease: "power2.out",
-      y: 100,
-      autoAlpha: 0,
-      stagger: 0.05,
+      y: 0,
+      opacity: 1,
+      rotateX: 0,
+      filter: "blur(0px)",
+      ease: "power4.out",
+      stagger: {
+        each: 0.02,
+        from: "random",
+      },
     });
+
     return () => split.revert();
   });
 
@@ -41,9 +57,11 @@ export default function Statement() {
       <h2
         ref={headingRef}
         className="statementText font-heading uppercase text-center tracking-tight
-        text-[clamp(2.8rem,11vw,9.5rem)]"
+        text-[clamp(2.8rem,11vw,9.5rem)] leading-none"
       >
-        Turning Ideas Into Experiences
+        Turning Ideas
+        <br /> Into
+        <br /> Experiences
       </h2>
     </section>
   );

@@ -162,23 +162,23 @@ export default function DevModeOverlay({
     });
 
     tl
-      // flash bars + punch contrast
+      // Flash bars
       .to(bars, { opacity: 1 }, 0)
       .to(el, { filter: "contrast(1.25) saturate(1.15) hue-rotate(8deg)" }, 0)
 
-      // whip left, then right (skew + slight scale)
+      // Slight left-right shake with skew
       .to(el, { x: -6, skewX: -4, scale: 1.005 })
       .to(el, { x: 7, skewX: 3 })
 
-      // tiny vertical nudge + micro-rotation
+      // Tiny bounce back
       .to(el, { x: 0, y: -3, rotation: -0.3, skewX: 0 })
       .to(el, { y: 0, rotation: 0 })
 
-      // fade bars, clear filter
+      // fFade out bars and reset filter
       .to(bars, { opacity: 0, duration: 0.12 })
       .to(el, { filter: "none", clearProps: "filter", duration: 0.06 }, "<");
   }, []);
-  // choose what to flip:
+
 
   // TOGGLE HACKER MODE WITH CMD/CTRL + SHIFT + H
 
@@ -917,16 +917,6 @@ export default function DevModeOverlay({
       stopEmojiRain();
     };
   }, []);
-
-  useEffect(() => {
-    if (hacker) {
-      gsap.fromTo(
-        ".animate-fadeIn",
-        { opacity: 0 },
-        { opacity: 1, duration: 0.45, ease: "power2.out" }
-      );
-    }
-  }, [hacker]);
 
   // ---------- END HACKER MODE BLOCK ----------
 

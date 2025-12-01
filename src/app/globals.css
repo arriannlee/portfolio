@@ -1,234 +1,90 @@
 @import "tailwindcss";
 
-/* TAILWIND BRIDGE */
 @theme inline {
+  /* Brand palette */
+  --brand-color-navy: #15003e;
+  --brand-color-purple: #6b00d7;
+  --brand-color-pink: #ff00a8;
+  --brand-bg-light: #f3e8ff;
+  --brand-color-lavender: #ffecfe;
+
+  /* Background */
   --color-bg: var(--color-bg);
   --color-bg-secondary: var(--color-bg-secondary);
   --color-border: var(--color-border);
 
+  /* Text */
   --color-text: var(--color-text);
   --color-sub-text: var(--color-sub-text);
 
-  --brand-color-navy: #15003e;
-  --brand-color-purple: #6b00d7;
-  --brand-color-pink: #ff00a8;
-  --brand-color-teal: #00d1c1;
-  --brand-color-teal-soft: rgba(0, 194, 178, 0.3);
-  --brand-bg-light: #f3e8ff;
-
+  /* Main accent colours */
   --color-main: var(--brand-color-pink);
-  --color-accent: var(--brand-color-teal);
+  --color-accent: var(--color-accent);
   --color-accent-hover: var(--color-accent-hover);
+  --color-hover: var(--brand-color-pink);
 
-  --color-highlight-bg: var(--color-highlight-bg);
-  --color-highlight-text: var(--color-highlight-text);
+  /* Highlight colour / text selection */
+  --color-highlight-bg: var(--brand-color-pink);
+  --color-highlight-text: #ffffff;
 
+  /* Fonts */
   --font-heading: var(--font-heading);
   --font-body: var(--font-body);
   --font-dev: var(--font-dev);
 }
 
-/* 🌤 LIGHT THEME (day mode) */
+/***** LIGHT THEME *****/
+
 :root {
-  --color-bg: #f3e8ff; /* soft lilac */
-  --color-bg-secondary: #ffffff; /* cards / panels */
-  --color-border: #e7e3ef; /* soft lilac-grey */
+  /* Surfaces */
+  --color-bg: var(--brand-bg-light);
+  --color-bg-secondary: #ffffff;
+  --color-border: #e7e3ef;
 
-  --color-text: #15003e; /* deep navy */
-  --color-sub-text: #3a2e59; /* muted navy */
+  /* Text */
+  --color-text: var(--brand-color-navy);
+  --color-sub-text: #3a2e59;
 
-  --color-text: var(--brand-color-pink);
-  --color-accent: var(--brand-color-teal);
-  --color-accent-hover: var(--brand-color-teal);
-
-  --color-highlight-bg: var(--brand-color-teal);
-  --color-highlight-text: #ffffff;
-
-  /* --avatar-vertical-lines: var(--color-accent); */
-  --avatar-color-2: rgba(0, 209, 193, 0.3);
+  /* Accents */
+  --color-accent: var(--brand-color-purple);
+  --color-accent-hover: var(--brand-color-pink);
 }
 
-/* 🌑 DARK THEME (night mode) */
+/***** DARK THEME *****/
+
 html[data-theme="dark"] {
-  --color-bg: #15003e; /* deep navy */
-  --color-bg-secondary: #15003e; /* you can swap to a slightly lighter navy if needed */
-  --color-border: #2a145a; /* subtle purple/navy border */
+  /* Surfaces */
+  --color-bg: var(--brand-color-navy);
+  --color-bg-secondary: #15003e;
+  --color-border: #2a145a;
 
+  /* Text */
   --color-text: #ffffff;
-  --color-sub-text: #f3e8ff; /* soft lilac for secondary text */
+  --color-sub-text: #f3e8ff;
 
-  --color-main: #ff00a8; /* magenta CTA */
-  --color-accent: #00d1c1; /* teal accent */
-  --color-accent-hover: #6b00d7; /* purple hover */
-
-  --color-highlight-bg: var(--color-main);
-  --color-highlight-text: #f3e8ff;
-
-  /* --avatar-vertical-lines: var(--color-text); */
-  --avatar-color-2: rgba(0, 209, 193, 0.45);
+  /* Accents */
+  --color-accent: var(--brand-color-purple);
+  --color-accent-hover: var(--brand-color-pink);
 }
 
-/* 🖥 SYSTEM THEME (follow OS if no explicit data-theme) */
+/*****c SYSTEM THEME *****/
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --color-bg: #15003e;
+    --color-bg: var(--brand-color-navy);
     --color-bg-secondary: #15003e;
     --color-border: #2a145a;
 
     --color-text: #ffffff;
     --color-sub-text: #f3e8ff;
 
-    --color-main: #ff00a8;
-    --color-accent: #00d1c1;
-    --color-accent-hover: #6b00d7;
-
-    --color-highlight-bg: var(--color-main);
-    --color-highlight-text: #f3e8ff;
-
-    /* --avatar-vertical-lines: var(--color-text); */
-    --avatar-color-2: rgba(0, 209, 193, 0.5);
+    --color-accent: var(--brand-color-purple);
+    --color-accent-hover: var(--brand-color-pink);
   }
 }
 
-/* AVATAR STYLES */
+/***** BASE *****/
 
-.avatar-fill {
-  fill: var(--brand-color-teal-soft);
-}
-.avatar-outline {
-  fill: var(--brand-color-pink);
-}
-/* .avatar-vertical-lines {
-  fill: var(--brand-color-pink);
-} */
-
-.avatar-color-1,
-.avatar-face-shadow,
-.r-pupil-1,
-.l-pupil-1 {
-  fill: var(--color-main); /* magenta */
-}
-
-.avatar-color-2,
-.r-pupil-2,
-.l-pupil-2 {
-  fill: var(--color-accent); /* teal */
-}
-
-.avatar-face-shadow {
-  opacity: 0.1;
-}
-
-.avatar-face {
-  fill: var(--color-highlight-text); /* light in both modes */
-}
-
-.avatar-highlight {
-  fill: rgba(255, 255, 255, 0.5);
-}
-
-.avatar-base-color {
-  fill: #ffffff;
-}
-
-/* .avatar-vertical-lines {
-  fill: var(--avatar-vertical-lines);
-} */
-
-/* DEV MODE*/
-.code-keyword {
-  color: #f59e0b;
-}
-.code-prop {
-  color: #60a5fa;
-}
-.code-string {
-  color: #34d399;
-}
-.code-comment {
-  color: #9ca3af;
-}
-.code-name {
-  color: #f472b6;
-}
-
-.ide-active {
-  background-color: rgba(255, 255, 255, 0.08);
-
-  color: var(--color-main);
-}
-/* globals.css */
-.code-string a {
-  color: inherit !important;
-  text-decoration: none;
-  transition:
-    text-shadow 0.25s ease,
-    opacity 0.25s ease;
-}
-
-.code-string a:hover {
-  color: #d93469 !important;
-}
-
-.hidden-hint:hover {
-  color: #d93469 !important;
-}
-
-.sparkle-text {
-  position: relative;
-  display: inline-block;
-  background: linear-gradient(
-    90deg,
-    #34d399 0%,
-    #34d399 40%,
-    #ffffff 50%,
-    #34d399 60%,
-    #34d399 100%
-  );
-  background-size: 200%;
-  -webkit-background-clip: text;
-  color: transparent;
-  transition: background-position 0.6s ease;
-}
-
-.sparkle-text:hover {
-  background-position: 120%;
-}
-
-/* add to your global or module CSS */
-.hacker-matrix {
-  background-image: radial-gradient(
-    ellipse at center,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0.35)
-  );
-  /* simple matrix-like animation using repeating linear-gradients */
-  background-size: 100% 2px;
-  opacity: 0.25;
-  mix-blend-mode: screen;
-  /* optional animated vertical rain using pseudo-elements in a real version */
-}
-
-/* terminal look */
-.hacker-terminal {
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(0, 255, 102, 0.06);
-}
-.terminal-body .typing {
-  white-space: pre-wrap;
-  line-height: 1.4;
-}
-/* respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .hacker-matrix {
-    animation: none;
-  }
-  .hacker-terminal {
-    transition: none;
-  }
-}
-
-/* Base */
 html,
 body {
   height: 100%;
@@ -259,7 +115,9 @@ body {
     color 0.25s ease;
 }
 
-/* Role tab styling */
+/***** TYPOGRAPHY & FOCUS *****/
+
+/* Role tab */
 .role-tab {
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -282,7 +140,7 @@ h4,
 h5,
 h6,
 .font-heading {
-  letter-spacing: 0.08em; /* subtle, refined spacing */
+  letter-spacing: 0.08em;
 }
 
 /* Smooth scroll for the whole site */
@@ -290,35 +148,203 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Respect users who prefer reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+/***** AVATAR *****/
+
+.avatar-fill {
+  fill: var(--brand-color-lavender);
+}
+
+.brand-pink,
+.avatar-outline,
+.avatar-vertical-lines, .avatar-lines{
+  fill: var(--brand-color-pink);
+}
+
+.avatar-base-color {
+  fill: #ffffff;
+}
+
+/* avatar horizontal lines */
+.avatar-lines-base {
+  stroke: var(--brand-color-pink);
+  stroke-width: 4;
+  opacity: 1;
+}
+
+/* GLOW LINES - hidden */
+.avatar-lines-glow {
+  stroke: var(--brand-color-pink);
+  stroke-width: 10;
+  opacity: 0;                /* hidden unless dark mode */
+  filter: none;
+  transition: opacity .3s ease;
+}
+
+/* DARK MODE → activate glow */
+html[data-theme="dark"] .avatar-lines-glow {
+  opacity: 1;
+  filter: url(#avatar-lines-glow);
+}
+
+/* LIGHT MODE → glow stays off */
+html[data-theme="light"] .avatar-lines-glow {
+  opacity: 0 !important;
+  filter: none !important;
+}
+
+/***** DEV MODE *****/
+
+/* Dev mode syntax highlighting */
+.code-keyword {
+  color: #f59e0b;
+}
+.code-prop {
+  color: #60a5fa;
+}
+.code-string {
+  color: #34d399;
+}
+.code-comment {
+  color: #9ca3af;
+}
+.code-name {
+  color: #f472b6;
+}
+
+/* dev mode active */
+.ide-active {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--color-main);
+}
+
+/* Links inside code strings */
+.code-string a {
+  color: inherit !important;
+  text-decoration: none;
+  transition:
+    text-shadow 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.code-string a:hover {
+  color: #d93469 !important;
+}
+
+/* Hidden hacker mode hint hover effect */
+.hidden-hint:hover {
+  color: #d93469 !important;
+}
+
+/* 'Creative Technologist' text sparkle effect */
+.sparkle-text {
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(
+    90deg,
+    #34d399 0%,
+    #34d399 40%,
+    #ffffff 50%,
+    #34d399 60%,
+    #34d399 100%
+  );
+  background-size: 200%;
+  background-clip: text;
+  color: transparent;
+  transition: background-position 0.6s ease;
+}
+
+.sparkle-text:hover {
+  background-position: 120%;
+}
+
+/* Dev mode fadein */
+.dev-fade {
+  opacity: 0;
+  animation: dev-fade-in 300ms ease forwards;
+}
+@keyframes dev-fade-in {
+  to {
+    opacity: 1;
   }
 }
 
-/* back-to-top micro-bounce (motion-safe) */
-.bt-anim {
-  will-change: transform;
-  animation: bt-bounce 2.2s ease-in-out infinite;
-  transition: transform 0.2s ease;
+/* subtle loading dots after text */
+.dev-dots::after {
+  content: "";
+  display: inline-block;
+  width: 0.9em;
+  text-align: left;
+  animation: dev-ellipsis steps(4, end) 1.2s infinite;
 }
-
-/* Pause animation on hover or focus */
-.bt-anim:hover,
-.bt-anim:focus {
-  animation-play-state: paused;
-  transform: rotate(180deg) translateY(-4px); /* optional: hold slight lift */
-}
-
-@keyframes bt-bounce {
-  0%,
-  100% {
-    transform: rotate(180deg) translateY(0);
+@keyframes dev-ellipsis {
+  0% {
+    content: "";
+  }
+  25% {
+    content: ".";
   }
   50% {
-    transform: rotate(180deg) translateY(-8px);
-  } /* was -4px */
+    content: "..";
+  }
+  75% {
+    content: "...";
+  }
+  100% {
+    content: "";
+  }
+}
+
+/* progress bar sheen (optional) */
+.dev-progress {
+  position: relative;
+  overflow: hidden;
+}
+.dev-progress::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: dev-sheen 1.6s ease-in-out infinite;
+}
+@keyframes dev-sheen {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/*****  HACKER MODE ******/
+
+/* Terminal */
+.hacker-terminal {
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(0, 255, 102, 0.06);
+}
+.terminal-body .typing {
+  white-space: pre-wrap;
+  line-height: 1.4;
+}
+
+/* Matrix bg effect */
+.hacker-matrix {
+  background-image: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.35)
+  );
+  background-size: 100% 2px;
+  opacity: 0.25;
+  mix-blend-mode: screen;
+}
+
+/* Hacker terminal fade-in */
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out both;
 }
 
 @keyframes fadeIn {
@@ -331,10 +357,8 @@ html {
     transform: translateY(0);
   }
 }
-/* .animate-fadeIn {
-  animation: fadeIn 0.4s ease-out both;
-} */
 
+/* Hacker flicker glitch */
 @keyframes flicker {
   0%,
   19%,
@@ -356,11 +380,7 @@ html {
   animation: flicker 3s infinite;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .bt-anim {
-    animation: none;
-  }
-}
+/******* BUTTONS *******/
 
 .btn {
   @apply rounded-lg transition
@@ -391,80 +411,77 @@ html {
   color: var(--color-highlight-text);
 }
 
-/* /dev fade-in */
-.dev-fade {
-  opacity: 0;
-  animation: dev-fade-in 300ms ease forwards;
+/**** BACK TO TOP *-****/
+
+/* Micro bounce: motion safe */
+.bt-anim {
+  will-change: transform;
+  animation: bt-bounce 2.2s ease-in-out infinite;
+  transition: transform 0.2s ease;
 }
-@keyframes dev-fade-in {
-  to {
-    opacity: 1;
+
+/* Pause animation on hover*/
+.bt-anim:hover,
+.bt-anim:focus {
+  animation-play-state: paused;
+  transform: rotate(180deg) translateY(-4px); /* optional: hold slight lift */
+}
+
+@keyframes bt-bounce {
+  0%,
+  100% {
+    transform: rotate(180deg) translateY(0);
+  }
+  50% {
+    transform: rotate(180deg) translateY(-8px);
   }
 }
+
+/**** RESPECT USER PREF - REDUCE MOTION ******/
+
 @media (prefers-reduced-motion: reduce) {
+  /* Turn off smooth scroll */
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Dev overlay animations */
   .dev-fade {
     animation: none;
     opacity: 1;
   }
-}
 
-/* subtle loading dots after text */
-.dev-dots::after {
-  content: "";
-  display: inline-block;
-  width: 0.9em;
-  text-align: left;
-  animation: dev-ellipsis steps(4, end) 1.2s infinite;
-}
-@keyframes dev-ellipsis {
-  0% {
-    content: "";
-  }
-  25% {
-    content: ".";
-  }
-  50% {
-    content: "..";
-  }
-  75% {
-    content: "...";
-  }
-  100% {
-    content: "";
-  }
-}
-@media (prefers-reduced-motion: reduce) {
   .dev-dots::after {
     animation: none;
     content: "...";
   }
-}
 
-/* progress bar sheen (optional) */
-.dev-progress {
-  position: relative;
-  overflow: hidden;
-}
-.dev-progress::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.25),
-    transparent
-  );
-  transform: translateX(-100%);
-  animation: dev-sheen 1.6s ease-in-out infinite;
-}
-@keyframes dev-sheen {
-  to {
-    transform: translateX(100%);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
   .dev-progress::after {
     animation: none;
+  }
+
+  /* Hacker terminal + matrix + flicker */
+  .animate-fadeIn {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .hacker-matrix {
+    animation: none;
+  }
+
+  .hacker-terminal {
+    transition: none;
+  }
+
+  .animate-flicker {
+    animation: none;
+  }
+
+  /* Back to top bounce */
+  .bt-anim {
+    animation: none !important;
+    transform: rotate(180deg); /* keep arrow orientation */
   }
 }

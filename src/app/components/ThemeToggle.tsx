@@ -12,7 +12,22 @@ export default function ThemeToggle() {
   useEffect(() => setMounted(true), []);
 
   // FUNCTION TO TOGGLE THE THEME BASED ON CURRENT RESOLVED THEME
-  const toggle = () => setTheme(resolvedTheme === "dark" ? "light" : "dark");
+  const toggle = () => {
+    if (!mounted) return;
+
+    const next = resolvedTheme === "dark" ? "light" : "dark";
+
+    // Flag for the avatar: only animate the dark-mode "sad" sequence
+    // when the user *actively* switches into dark.
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(
+        "avatar.animateDark",
+        next === "dark" ? "1" : "0"
+      );
+    }
+
+    setTheme(next);
+  };
 
   // EVENT HANDLER FOR THE THEME TOGGLE BUTTON TRIGGERS ON CLICK
   return (

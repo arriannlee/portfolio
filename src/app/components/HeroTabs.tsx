@@ -81,10 +81,10 @@ export default function HeroTabs({ onEngineersClick }: Props) {
               tabIndex={selected ? 0 : -1}
               onClick={() => setActive(i)}
               className={[
-                "role-tab py-2 px-2 rounded-lg text-sm sm:text-base transition-all shrink-0 snap-start",
+                "hover:scale-[1.03] hover:-translate-y-0.5 role-tab py-2 px-2 rounded-lg text-sm sm:text-base transition-all shrink-0 snap-start",
                 selected
                   ? "text-[color:var(--color-main)]"
-                  : "text-[color:var(--color-text)] hover:text-[color:var(--color-accent)]",
+                  : "text-[color:var(--color-text)] hover:text-[color:var(--color-hover)]",
               ].join(" ")}
             >
               {tab.label}
