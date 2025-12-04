@@ -21,7 +21,7 @@ export default function BackToTop() {
     return () => io.disconnect();
   }, []);
 
-  // Align vertically with #contact-social if present
+  // Align vertically with #contact-social
   useEffect(() => {
     const social = document.getElementById("contact-social");
     if (!social) return;

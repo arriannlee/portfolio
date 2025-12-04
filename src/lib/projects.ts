@@ -16,7 +16,7 @@ export const PROJECTS: Project[] = [
     stack: ["React", "Next.js", "Tailwind", "GSAP"],
     image: "/images/mojito.png",
     color: "#6B00D7",
-    link: "https://mojito-site-url-goes-here.com/",
+    link: "https://beautiquesalon.netlify.app/",
   },
   {
     id: "beautique",

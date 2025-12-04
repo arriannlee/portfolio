@@ -9,7 +9,7 @@ export default function Avatar() {
   const root = useRef<HTMLDivElement | null>(null);
   const { resolvedTheme } = useTheme();
   const hasInitialisedTheme = useRef(false);
-  
+
 // EYE FOLLOWING MOUSE EFFECT
   useGSAP(() => {
     const svg = root.current?.querySelector("svg") as SVGSVGElement | null;
@@ -104,7 +104,7 @@ export default function Avatar() {
       window.removeEventListener("mouseleave", resetEyes);
       window.removeEventListener("blur", resetEyes);
     };
-  }, []);
+  }, [])
 
   // THEME CHANGE ANIMATION EFFECT
   useGSAP(

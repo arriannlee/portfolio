@@ -18,7 +18,7 @@ export default function Statement() {
       reduceWhiteSpace: true,
     });
 
-    // BASELINE: start with distorted, blurry, slightly rotated text
+    // Starts blury and scattered
     gsap.set(split.chars, {
       y: 120,
       filter: "blur(12px)",
@@ -26,7 +26,7 @@ export default function Statement() {
       opacity: 0,
     });
 
-    // EPIC SCROLL-REVEAL
+    // Epic scroll reveal
     gsap.to(split.chars, {
       scrollTrigger: {
         trigger: sectionRef.current,

@@ -68,7 +68,7 @@ export default function Projects() {
         );
       });
 
-      // final step: contact slides UP over the last project
+      // Contact slides up over last project
       tl.fromTo(
         contact,
         { yPercent: 100 },
@@ -160,10 +160,10 @@ export default function Projects() {
       duration: 0.8,
     });
 
-    phrases.forEach((text, index) => {
+    phrases.forEach((text) => {
       // Slower typing + deleting
-      const typeDuration = Math.max(0.9, text.length * 0.12); // slower type
-      const deleteDuration = Math.max(1.0, text.length * 0.14); // slower delete
+      const typeDuration = Math.max(0.9, text.length * 0.12); // type duration
+      const deleteDuration = Math.max(1.0, text.length * 0.14); // delete duration
 
       // Type it
       tl.to(typeRef.current, {
@@ -172,10 +172,10 @@ export default function Projects() {
         ease: "none",
       });
 
-      // Little pause with full text visible
+      // Pause duration to show full text before deleting
       tl.to({}, { duration: 0.9 });
 
-      // Delete it (back to empty string)
+      // Delete
       tl.to(typeRef.current, {
         text: "",
         duration: deleteDuration,
@@ -353,7 +353,7 @@ export default function Projects() {
           }}
         >
           <div
-            id="contact" // keeps your BackToTop / anchor behaviour
+            id="contact" // 
             className="
               flex flex-col items-center text-center
               translate-y-4 sm:translate-y-6 md:translate-y-8

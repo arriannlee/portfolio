@@ -37,7 +37,8 @@
 
 :root {
   /* Surfaces */
-  --color-bg: var(--brand-bg-light);
+  --color-bg: #fff;
+  /* --color-bg: var(--brand-bg-light); */
   --color-bg-secondary: #ffffff;
   --color-border: #e7e3ef;
 
@@ -156,7 +157,8 @@ html {
 
 .brand-pink,
 .avatar-outline,
-.avatar-vertical-lines, .avatar-lines{
+.avatar-vertical-lines,
+.avatar-lines {
   fill: var(--brand-color-pink);
 }
 
@@ -175,9 +177,9 @@ html {
 .avatar-lines-glow {
   stroke: var(--brand-color-pink);
   stroke-width: 10;
-  opacity: 0;                /* hidden unless dark mode */
+  opacity: 0; /* hidden unless dark mode */
   filter: none;
-  transition: opacity .3s ease;
+  transition: opacity 0.3s ease;
 }
 
 /* DARK MODE → activate glow */
@@ -424,7 +426,7 @@ html[data-theme="light"] .avatar-lines-glow {
 .bt-anim:hover,
 .bt-anim:focus {
   animation-play-state: paused;
-  transform: rotate(180deg) translateY(-4px); /* optional: hold slight lift */
+  transform: rotate(180deg) translateY(-4px); 
 }
 
 @keyframes bt-bounce {
