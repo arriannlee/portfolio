@@ -1,5 +1,5 @@
 // This component displays a "Back to Top" button that appears when the #contact section is visible
-// The button aligns vertically with the #contact-social element and scrolls the page to the top when clicked
+// The button aligns vertically with the #contac element and scrolls the page to the top when clicked
 
 
 "use client";

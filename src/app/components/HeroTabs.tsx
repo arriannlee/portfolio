@@ -1,7 +1,7 @@
 // This component renders a tabbed interface in the hero section
 // It has tabs for different audiences with corresponding content panels
 // The "Engineers" tab includes a button that triggers a callback when clicked in desktop view
-// Alternatively, it shows different text on mobile and tablet views
+// Alternatively it shows different text on mobile and tablet views
 
 "use client";
 import { useId, useState, useEffect, KeyboardEvent } from "react";
