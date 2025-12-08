@@ -1,3 +1,8 @@
+// This module defines the Project type and exports a list of projects with their details
+// Each project includes an id, title, description, technology stack, image, color, and link
+// This data can be used to display project information in the portfolio website
+// This data can be easily accesssed abnd edited in one place
+
 export type Project = {
   id: string;
   title: string;

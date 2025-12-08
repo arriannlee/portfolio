@@ -1,3 +1,8 @@
+// This component renders the hero section of the website
+// It includes an avatar image on the right and tabbed content on the left
+// There is also a full-screen overlay that provides additional information for developers when activated on desktop
+
+
   "use client";
 
   import { useState } from "react";

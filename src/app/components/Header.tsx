@@ -1,3 +1,6 @@
+// This component renders the header of the website
+// It includes the site owners initial as a logo that expand to reveal full name on hover and returns to hero on click
+
 "use client";
 
 import { useState } from "react";

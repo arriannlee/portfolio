@@ -1,3 +1,7 @@
+// This component provides a button to toggle between light and dark themes
+// It uses the next-themes library to manage theme state and persists user preference in local storage
+// The button displays different icons based on the current theme
+
 "use client";
 
 import { useTheme } from "next-themes";

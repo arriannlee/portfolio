@@ -1,3 +1,8 @@
+// This component renders a statement section with animated text
+// The text animates into view with a scroll-triggered effect using GSAP
+
+
+
 "use client";
 
 import { useRef } from "react";

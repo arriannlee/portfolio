@@ -1,3 +1,7 @@
+// This component renders a floating theme toggle button
+// It positions the button at the top-right corner of the viewport
+// The button uses the ThemeToggle component to switch between light and dark themes
+
 "use client";
 
 import ThemeToggle from "./ThemeToggle";

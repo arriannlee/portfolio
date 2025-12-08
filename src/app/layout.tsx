@@ -1,3 +1,10 @@
+// The portfolio website root layout
+// It sets up global fonts, theme provider, and includes common components like header and footer
+// It also applies global styles and metadata for the site
+// It uses Next.js and the next-themes library for theme management
+// The layout ensures consistent structure and styling across all pages
+
+
 import type { Metadata } from "next";
 import { Inter, Outfit, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
@@ -5,7 +12,7 @@ import ThemeToggleFloating from "@/app/components/ThemeToggleFloating";
 import "./globals.css";
 import Header from "./components/Header";
 import BackToTop from "./components/BackToTop";
-import PageTransitionOverlay from "./components/PageTransitionOverlay"; 
+import PageTransitionOverlay from "./components/PageTransitionOverlay";
 
 const inter = Inter({
   subsets: ["latin"],

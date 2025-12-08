@@ -1,3 +1,10 @@
+// This coimponent renders the projects section of the website
+// It features a horizontal scrolling effect on desktop and vertical scrolling on mobile/tablet
+// Each project panel includes an image, title, tech stack, and description
+// Clicking a project image opens a live preview on desktop or a new tab on mobile/mobile
+// Clicking on project title opens the live site in a new tab
+// The final panel contains contact information with a typewriter effect
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -67,7 +74,6 @@ export default function Projects() {
           index - 1
         );
       });
-
       // Contact slides up over last project
       tl.fromTo(
         contact,
@@ -353,7 +359,7 @@ export default function Projects() {
           }}
         >
           <div
-            id="contact" // 
+            id="contact" //
             className="
               flex flex-col items-center text-center
               translate-y-4 sm:translate-y-6 md:translate-y-8

@@ -1,3 +1,8 @@
+// This component contrains instruction for the SVG markup of the avatar
+// as well as GSAP animation effects for eye tracking and theme changes
+// The SVG will have different states for light and dark mode with animations when switching from light to dark
+// In mobule and tablet views the avatar is static without animations
+
 "use client";
 
 import { useGSAP } from "@gsap/react";
@@ -10,7 +15,7 @@ export default function Avatar() {
   const { resolvedTheme } = useTheme();
   const hasInitialisedTheme = useRef(false);
 
-// EYE FOLLOWING MOUSE EFFECT
+  // EYE FOLLOWING MOUSE EFFECT
   useGSAP(() => {
     const svg = root.current?.querySelector("svg") as SVGSVGElement | null;
     if (!svg) return;
@@ -104,7 +109,7 @@ export default function Avatar() {
       window.removeEventListener("mouseleave", resetEyes);
       window.removeEventListener("blur", resetEyes);
     };
-  }, [])
+  }, []);
 
   // THEME CHANGE ANIMATION EFFECT
   useGSAP(

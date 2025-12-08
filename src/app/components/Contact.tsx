@@ -1,4 +1,4 @@
-// CONTACT ADDED TO THE BOTTOM OF PROJECTS TO SLIDE UP OVER PROJECTS 
+// CONTACT ADDED TO THE BOTTOM OF PROJECTS TO SLIDE UP OVER PROJECTS
 // export default function Contact() {
 //   return (
 //     <section
@@ -92,3 +92,4 @@
 //     </section>
 //   );
 // }
+

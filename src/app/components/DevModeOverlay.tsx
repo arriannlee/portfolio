@@ -1,3 +1,9 @@
+// Thisa component renders a full-screen developer mode overlay
+// It simulates a code editor environment with a loading screen, file explorer, and code editor
+// The overlay includes animations for loading, opening, and closing using GSAP
+// Users can exit developer mode by pressing the ESC key or clicking the close button
+// Each OS (Mac/Windows) immitates its respective window controls and styles which  can be overriden for testing using the forceOs prop
+
 "use client";
 
 import React, { JSX, useEffect, useRef, useState, useCallback } from "react";
@@ -9,30 +15,39 @@ import { IoIosInformationCircle } from "react-icons/io";
 import { IoLogoCss3, IoIosStar } from "react-icons/io";
 import { VscVscode } from "react-icons/vsc";
 
-// -------- Types --------
+// DETECT OS
 
 type OS = "mac" | "windows";
 
-type DevModeOverlayProps = {
-  open: boolean;
-  onClose: () => void;
-  forceOs?: OS; // optional override for testing
-};
-
-type Phase = "loading" | "app" | "exiting";
-
-
-// Detect OS
-function detectOS(): OS {
+function detectOS(): "mac" | "windows" {
   const uaData = (
     navigator as unknown as { userAgentData?: { platform?: string } }
   ).userAgentData;
   const uaDataPlatform = uaData?.platform?.toLowerCase() || "";
+  // Fallback for older browsers
   const ua = navigator.userAgent.toLowerCase();
   const platform = uaDataPlatform || ua;
+  // Detect macOS
   if (platform.includes("mac")) return "mac";
+  // Default to Windows for everything else
   return "windows";
 }
+
+// Detect desktop viewport
+
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 1024);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  return isDesktop;
+}
+// OS OVERRIDE CMD/CTRL + SHIFT + O
 
 function resolveOS(auto: OS, forceProp?: OS): OS {
   if (forceProp) return forceProp;
@@ -44,6 +59,27 @@ function resolveOS(auto: OS, forceProp?: OS): OS {
   }
   return auto;
 }
+
+type DevModeOverlayProps = {
+  open: boolean;
+  onClose: () => void;
+  forceOs?: OS; // FORCE OS FOR TESTING PURPOSES ONLY
+};
+
+// CONSOLE LOG MESSAGE
+
+console.log(
+  "%cHey there curious mind 👀",
+  "color:#34D399; font-size:14px; font-weight:bold;"
+);
+console.log(
+  "%cYou just unlocked Developer Mode 😉",
+  "color:#FF5C5C;font-size:14px; font-weight:bold;"
+);
+console.log(
+  "%cNot everything creative lives on screen 😎",
+  "color:#facc15; font-size:14px; font-weight:bold;"
+);
 
 // Code highlighters
 
@@ -69,7 +105,6 @@ const CodeLine: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 const currentYear = new Date().getFullYear();
 
-
 export default function DevModeOverlay({
   open,
   onClose,
@@ -77,7 +112,7 @@ export default function DevModeOverlay({
 }: DevModeOverlayProps) {
   const [os, setOS] = useState<OS>("windows");
   const [phase, setPhase] = useState<Phase>("loading");
-
+  const isDesktop = useIsDesktop();
   const root = useRef<HTMLDivElement | null>(null);
   const loaderRef = useRef<HTMLDivElement | null>(null);
   const appRef = useRef<HTMLDivElement | null>(null);
@@ -102,7 +137,7 @@ export default function DevModeOverlay({
     document.documentElement.setAttribute("data-os", resolved);
   }, [forceOs]);
 
-  // Expand/minimise animations
+  // Expand animations
   const handleExpand = () => {
     if (!appRef.current) return;
     gsap.to(appRef.current, {
@@ -115,7 +150,8 @@ export default function DevModeOverlay({
     });
   };
 
-  const handleMinimize = () => {
+  // Minimise animation
+  const handleMinimise = () => {
     if (!appRef.current) return;
     gsap.to(appRef.current, {
       scale: 0.97,
@@ -133,7 +169,7 @@ export default function DevModeOverlay({
     setPhase("exiting");
   }, [open, phase]);
 
-  // ESC to exit
+  // ESC to exit eventlistener
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -145,6 +181,26 @@ export default function DevModeOverlay({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open, startExit]);
+
+  // OS MODE TESTING  TOGGLE OS WITH CMD/CTRL + SHIFT + O
+
+  useEffect(() => {
+    const isMac = /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent);
+
+    const onKey = (e: KeyboardEvent) => {
+      const mod = isMac ? e.metaKey : e.ctrlKey;
+
+      if (mod && e.shiftKey && e.key.toLowerCase() === "o") {
+        e.preventDefault();
+        const next = os === "windows" ? "mac" : "windows";
+        localStorage.setItem("devmode.os", next);
+        location.reload();
+      }
+    };
+
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [os]);
 
   // GSAP sequence for loading + app
   useGSAP(() => {
@@ -199,6 +255,19 @@ export default function DevModeOverlay({
     return () => tl.kill();
   }, [open]);
 
+  //Loading screen boot lines animation
+  useGSAP(() => {
+    const lines = gsap.utils.toArray(".boot-line");
+
+    gsap.from(lines, {
+      opacity: 0,
+      y: 10,
+      stagger: 0.5,
+      duration: 1,
+      ease: "power2.out",
+    });
+  }, []);
+
   // Exit animation
   useEffect(() => {
     if (phase !== "exiting") return;
@@ -225,6 +294,7 @@ export default function DevModeOverlay({
   }, [phase, onClose]);
 
   if (!open) return null;
+  if (!isDesktop) return null;
 
   return (
     <div
@@ -245,9 +315,9 @@ export default function DevModeOverlay({
             Booting Developer Mode…
           </div>
           <div className="mt-3 space-y-1 font-mono text-sm text-[color:var(--color-sub-text)]">
-            <div className="boot-line">Initialising modules</div>
-            <div className="boot-line">Loading shaders</div>
-            <div className="boot-line">Spinning up sandboxes</div>
+            <div className="boot-line">Preparing interface…</div>
+            <div className="boot-line">Syncing animation modules…</div>
+            <div className="boot-line">Applying theme settings…</div>
           </div>
           <div className="mt-5 h-2 w-full bg-[color:var(--color-border)]/40 rounded">
             <div className="boot-bar h-2 w-full bg-[color:var(--color-main)] rounded" />
@@ -261,7 +331,6 @@ export default function DevModeOverlay({
           </p>
         </div>
       </div>
-
       {/* APP  */}
       <div ref={appRef} className="absolute inset-0 p-4 sm:p-8">
         <div
@@ -299,8 +368,8 @@ export default function DevModeOverlay({
                   <div className="absolute right-0 top-0 flex items-stretch">
                     <button
                       type="button"
-                      title="Minimize"
-                      onClick={handleMinimize}
+                      title="Minimise"
+                      onClick={handleMinimise}
                       className="w-11 h-9 grid place-items-center hover:bg-[#3b3b3b] transition-colors"
                     >
                       <svg width="10" height="10" viewBox="0 0 10 10">
@@ -363,8 +432,8 @@ export default function DevModeOverlay({
                   />
                   <span
                     className="h-3 w-3 rounded-full bg-yellow-500/80 cursor-pointer hover:bg-yellow-400 transition-colors"
-                    title="Minimize Window"
-                    onClick={handleMinimize}
+                    title="Minimise Window"
+                    onClick={handleMinimise}
                   />
                   <span
                     className="h-3 w-3 rounded-full bg-green-500/80 cursor-pointer hover:bg-green-500 transition-colors"
@@ -568,8 +637,8 @@ export default function DevModeOverlay({
                     ].map((p, i, arr) => (
                       <CodeLine key={p.title}>
                         {"\u00A0\u00A0"}
-                        {P("{")} {P("title")}: {S(`"${p.title}"`)},{" "}
-                        {P("type")}: {S(`"${p.type}"`)}, {P("stack")}: {P("[")}
+                        {P("{")} {P("title")}: {S(`"${p.title}"`)}, {P("type")}:{" "}
+                        {S(`"${p.type}"`)}, {P("stack")}: {P("[")}
                         <span className="text-[#34D399]">
                           {p.stack.join(", ")}
                         </span>
