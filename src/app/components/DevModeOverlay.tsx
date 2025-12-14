@@ -255,9 +255,12 @@ export default function DevModeOverlay({
     return () => tl.kill();
   }, [open]);
 
-  //Loading screen boot lines animation
+  // Loading screen boot lines animation
   useGSAP(() => {
-    const lines = gsap.utils.toArray(".boot-line");
+    if (!open) return;
+
+    const lines = gsap.utils.toArray<HTMLElement>(".boot-line");
+    if (!lines.length) return;
 
     gsap.from(lines, {
       opacity: 0,
@@ -266,7 +269,7 @@ export default function DevModeOverlay({
       duration: 1,
       ease: "power2.out",
     });
-  }, []);
+  }, [open]);
 
   // Exit animation
   useEffect(() => {

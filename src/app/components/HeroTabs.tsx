@@ -4,7 +4,8 @@
 // Alternatively it shows different text on mobile and tablet views
 
 "use client";
-import { useId, useState, useEffect, KeyboardEvent } from "react";
+
+import { useId, useState, KeyboardEvent } from "react";
 
 type Props = {
   onEngineersClick?: () => void;
@@ -29,27 +30,13 @@ const TABS = [
   {
     id: "four",
     label: "Engineers",
-    body: "", // handled manually below
+    body: "", // handled manually
   },
 ];
 
 export default function HeroTabs({ onEngineersClick }: Props) {
   const [active, setActive] = useState(0);
-  const [mounted, setMounted] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
   const baseId = useId();
-
-  // Mark component as mounted (prevents hydration mismatch)
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Desktop breakpoint check — client only
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setIsDesktop(window.innerWidth >= 1024);
-    }
-  }, []);
 
   // Keyboard navigation
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
@@ -90,6 +77,7 @@ export default function HeroTabs({ onEngineersClick }: Props) {
       >
         {TABS.map((tab, i) => {
           const selected = i === active;
+
           return (
             <button
               key={tab.id}
@@ -128,30 +116,28 @@ export default function HeroTabs({ onEngineersClick }: Props) {
             >
               {tab.id === "four" ? (
                 <p className="font-body text-lg sm:text-xl leading-relaxed text-sub-text max-w-prose">
-                  {/* Mobile Version */}
-                  {!mounted || !isDesktop ? (
-                    <>
-                      I’m creative coded, {"{!yet}"} a full engineer but fluent
-                      enough to build responsive, interactive interfaces
-                      tailored for mobile and tablet.
-                    </>
-                  ) : (
-                    /* Desktop Version (DevMode link active) */
-                    <>
-                      I’m creative coded, {"{!yet}"} a full engineer but fluent
-                      enough to build {"{"}
-                      <button
-                        type="button"
-                        onClick={onEngineersClick}
-                        className="underline decoration-[color:var(--color-main)] underline-offset-2 text-[color:var(--color-main)]
-                        hover:text-[color:var(--color-accent-hover)] focus-visible:outline-none focus-visible:ring-2
-                        focus-visible:ring-[color:var(--color-main)] focus-visible:ring-offset-2 rounded transition-colors"
-                      >
-                        this.site
-                      </button>
-                      {"}"} and a few others along the way.
-                    </>
-                  )}
+                  {/* Mobile & tablet copy */}
+                  <span className="inline lg:hidden">
+                    I’m creative coded, {"{!yet}"} a full engineer but fluent
+                    enough to build responsive, interactive interfaces tailored
+                    for mobile and tablet.
+                  </span>
+
+                  {/* Desktop copy with clickable this.site */}
+                  <span className="hidden lg:inline">
+                    I’m creative coded, {"{!yet}"} a full engineer but fluent
+                    enough to build {"{"}
+                    <button
+                      type="button"
+                      onClick={onEngineersClick}
+                      className="underline decoration-[color:var(--color-main)] underline-offset-2 text-[color:var(--color-main)]
+                                 hover:text-[color:var(--color-accent-hover)] focus-visible:outline-none focus-visible:ring-2
+                                 focus-visible:ring-[color:var(--color-main)] focus-visible:ring-offset-2 rounded transition-colors"
+                    >
+                      this.site
+                    </button>
+                    {"}"} and a few others along the way.
+                  </span>
                 </p>
               ) : (
                 <p className="font-body text-lg sm:text-xl leading-relaxed text-sub-text max-w-prose">

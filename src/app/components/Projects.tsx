@@ -30,7 +30,7 @@ export default function Projects() {
     const mm = gsap.matchMedia();
 
     // DESKTOP HORIZONTAL SLIDER
-    mm.add("(min-width: 1024px)", () => {
+    mm.add("(min-width: 1201px)", () => {
       const sections = gsap.utils.toArray<HTMLElement>(".project-panel");
       const contact =
         rootRef.current?.querySelector<HTMLElement>("#contact-panel");
@@ -88,7 +88,7 @@ export default function Projects() {
     });
 
     // TABLET & MOBILE VERTICAL SLIDER
-    mm.add("(max-width: 1023px)", () => {
+    mm.add("(max-width: 1200px)", () => {
       const sections = gsap.utils.toArray<HTMLElement>(".project-panel");
       const contact =
         rootRef.current?.querySelector<HTMLElement>("#contact-panel");
@@ -222,14 +222,16 @@ export default function Projects() {
           >
             <div
               className="
-                max-w-[1000px] w-full
-                grid gap-8 items-center
-                grid-cols-1
-                lg:grid-cols-[1.3fr_1fr]
-              "
+              max-w-[1000px] w-full
+              grid gap-8 items-center
+              grid-cols-1
+              justify-items-center
+              xl:grid-cols-[1.3fr_1fr]
+              xl:justify-items-stretch
+            "
             >
               {/* IMAGE – FIRST ON MOBILE SECOND ON DESKTOP */}
-              <div className="w-full max-w-[520px] justify-self-center order-1 lg:order-2">
+              <div className="w-full max-w-[520px] justify-self-center order-1 xl:order-2">
                 <button
                   type="button"
                   onClick={() => {
@@ -275,11 +277,11 @@ export default function Projects() {
               {/* TEXT SECOND ON MOBILE, FIRST ON DESKTOP */}
               <div
                 className="
-                  order-2 lg:order-1
-                  md:px-10
-                  md:py-6
-                  md:max-w-[600px]
-                "
+                order-2 xl:order-1
+                md:px-10
+                md:py-6
+                md:max-w-[600px]
+              "
               >
                 <a
                   href={project.link}
@@ -385,10 +387,10 @@ export default function Projects() {
                 ref={cursorRef}
                 aria-hidden="true"
                 className="
-      inline-block ml-1 align-middle
-      w-[0.6ch] h-[1.1em]
-      bg-[color:var(--color-main)]
-    "
+                  inline-block ml-1 align-middle
+                  w-[0.6ch] h-[1.1em]
+                  bg-[color:var(--color-main)]
+                "
               />
             </p>
 

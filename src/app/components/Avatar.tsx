@@ -1,7 +1,7 @@
 // This component contrains instruction for the SVG markup of the avatar
 // as well as GSAP animation effects for eye tracking and theme changes
 // The SVG will have different states for light and dark mode with animations when switching from light to dark
-// In mobule and tablet views the avatar is static without animations
+// In mobile and tablet views the avatar is static without animations
 
 "use client";
 
@@ -176,7 +176,6 @@ export default function Avatar() {
       if (typeof window !== "undefined") {
         shouldAnimateDark =
           window.localStorage.getItem("avatar.animateDark") === "1";
-        // consume flag so reloads don't re-trigger
         window.localStorage.setItem("avatar.animateDark", "0");
       }
 

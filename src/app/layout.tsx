@@ -12,7 +12,7 @@ import ThemeToggleFloating from "@/app/components/ThemeToggleFloating";
 import "./globals.css";
 import Header from "./components/Header";
 import BackToTop from "./components/BackToTop";
-import PageTransitionOverlay from "./components/PageTransitionOverlay";
+// import PageTransitionOverlay from "./components/PageTransitionOverlay";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -54,7 +54,7 @@ export default function RootLayout({
           enableSystem
         >
           {/* GLOBAL PAGE TRANSITION OVERLAY */}
-          <PageTransitionOverlay /> {/* ← sits above everything */}
+          {/* <PageTransitionOverlay /> ← sits above everything */}
           <ThemeToggleFloating />
           <Header />
           {/* Reserve space for fixed header */}

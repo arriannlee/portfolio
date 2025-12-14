@@ -1,8 +1,6 @@
 // This component renders a statement section with animated text
 // The text animates into view with a scroll-triggered effect using GSAP
 
-
-
 "use client";
 
 import { useRef } from "react";
@@ -36,7 +34,7 @@ export default function Statement() {
       scrollTrigger: {
         trigger: sectionRef.current,
         // markers: true,
-        start: "top 90%",
+        start: "top 45%",
         end: "bottom 80%",
         scrub: 1,
       },
