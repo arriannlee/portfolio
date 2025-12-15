@@ -361,7 +361,7 @@ export default function Projects() {
           }}
         >
           <div
-            id="contact" //
+            id="contact" 
             className="
               flex flex-col items-center text-center
               translate-y-4 sm:translate-y-6 md:translate-y-8
