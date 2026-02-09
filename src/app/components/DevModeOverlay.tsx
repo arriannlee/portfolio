@@ -677,7 +677,7 @@ export default function DevModeOverlay({
                       {"\u00A0\u00A0"}
                       {P("email")}:{" "}
                       {S(
-                        <a href="mailto:hello@arriannlee.xyz">
+                        <a href="mailto:hello@arriannlee.com">
                           &quot;hello@arriannlee.com&quot;
                         </a>,
                       )}
