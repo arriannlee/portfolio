@@ -71,7 +71,7 @@ export default function Projects() {
           panel,
           { xPercent: 100, yPercent: 0 },
           { xPercent: 0, yPercent: 0, duration: 1, ease: "none" },
-          index - 1
+          index - 1,
         );
       });
       // Contact slides up over last project
@@ -79,7 +79,7 @@ export default function Projects() {
         contact,
         { yPercent: 100 },
         { yPercent: 0, duration: 1, ease: "none" },
-        sections.length - 1
+        sections.length - 1,
       );
 
       return () => {
@@ -128,7 +128,7 @@ export default function Projects() {
           panel,
           { yPercent: 100, xPercent: 0 },
           { yPercent: 0, xPercent: 0, duration: 1, ease: "none" },
-          index - 1
+          index - 1,
         );
       });
 
@@ -137,7 +137,7 @@ export default function Projects() {
         contact,
         { yPercent: 100 },
         { yPercent: 0, duration: 1, ease: "none" },
-        sections.length - 1
+        sections.length - 1,
       );
 
       return () => {
@@ -361,7 +361,7 @@ export default function Projects() {
           }}
         >
           <div
-            id="contact" 
+            id="contact"
             className="
               flex flex-col items-center text-center
               translate-y-4 sm:translate-y-6 md:translate-y-8
@@ -434,7 +434,7 @@ export default function Projects() {
 
               {/* Email */}
               <a
-                href="mailto:arriann.lee@hotmail.com?subject=Website%20Contact"
+                href="mailto:hello@arriannlee.com?subject=Website%20Contact"
                 aria-label="Email"
                 className="text-[color:var(--color-main)] hover:text-[color:var(--color-accent)] transition-colors motion-safe:hover:-translate-y-1"
               >
