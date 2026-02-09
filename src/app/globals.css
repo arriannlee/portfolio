@@ -72,7 +72,7 @@ html[data-theme="dark"] {
   --color-accent-hover: var(--brand-color-pink);
 }
 
-/*****c SYSTEM THEME *****/
+/***** SYSTEM THEME *****/
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
@@ -324,7 +324,7 @@ html[data-theme="light"] .avatar-lines-glow {
   }
 }
 
-/*****  HACKER MODE ******/
+/***** HACKER MODE *****/
 
 /* Terminal */
 .hacker-terminal {
@@ -386,7 +386,7 @@ html[data-theme="light"] .avatar-lines-glow {
   animation: flicker 3s infinite;
 }
 
-/******* BUTTONS *******/
+/***** BUTTONS *****/
 
 .btn {
   @apply rounded-lg transition
@@ -417,7 +417,7 @@ html[data-theme="light"] .avatar-lines-glow {
   color: var(--color-highlight-text);
 }
 
-/**** BACK TO TOP *-****/
+/***** BACK TO TOP *****/
 
 /* Micro bounce: motion safe */
 .bt-anim {
@@ -443,7 +443,7 @@ html[data-theme="light"] .avatar-lines-glow {
   }
 }
 
-/**** RESPECT USER PREF - REDUCE MOTION ******/
+/***** RESPECT USER PREF - REDUCE MOTION *****/
 
 @media (prefers-reduced-motion: reduce) {
   /* Turn off smooth scroll */
