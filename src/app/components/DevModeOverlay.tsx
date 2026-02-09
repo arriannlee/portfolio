@@ -18,6 +18,7 @@ import { VscVscode } from "react-icons/vsc";
 // DETECT OS
 
 type OS = "mac" | "windows";
+type Phase = "loading" | "app" | "exiting";
 
 function detectOS(): "mac" | "windows" {
   const uaData = (
@@ -70,15 +71,15 @@ type DevModeOverlayProps = {
 
 console.log(
   "%cHey there curious mind 👀",
-  "color:#34D399; font-size:14px; font-weight:bold;"
+  "color:#34D399; font-size:14px; font-weight:bold;",
 );
 console.log(
   "%cYou just unlocked Developer Mode 😉",
-  "color:#FF5C5C;font-size:14px; font-weight:bold;"
+  "color:#FF5C5C;font-size:14px; font-weight:bold;",
 );
 console.log(
   "%cNot everything creative lives on screen 😎",
-  "color:#facc15; font-size:14px; font-weight:bold;"
+  "color:#facc15; font-size:14px; font-weight:bold;",
 );
 
 // Code highlighters
@@ -223,12 +224,12 @@ export default function DevModeOverlay({
       .from(
         ".boot-bar",
         { scaleX: 0, transformOrigin: "0% 50%", duration: 0.8 },
-        "<0.2"
+        "<0.2",
       )
       .to(
         ".boot-title",
         { skewX: 12, x: 5, duration: 0.06, yoyo: true, repeat: 3 },
-        "<"
+        "<",
       )
       .to({}, { duration: 0.5 })
       .to(loaderRef.current, { autoAlpha: 0, duration: 0.3 })
@@ -249,7 +250,7 @@ export default function DevModeOverlay({
           duration: 0.25,
           ease: "power1.out",
         },
-        "<0.05"
+        "<0.05",
       );
 
     return () => tl.kill();
@@ -287,7 +288,7 @@ export default function DevModeOverlay({
       .fromTo(
         ".exit-scan",
         { y: "-100%" },
-        { y: "100%", duration: 0.6, ease: "power2.in" }
+        { y: "100%", duration: 0.6, ease: "power2.in" },
       )
       .to(exitRef.current, { autoAlpha: 0, duration: 0.2 });
 
@@ -555,7 +556,6 @@ export default function DevModeOverlay({
                     <CodeLine>
                       {C("/* ============================ */")}
                     </CodeLine>
-
                     <CodeLine>
                       {K("const")} {N("developer")} {P("=")} {"{"}
                     </CodeLine>
@@ -568,8 +568,8 @@ export default function DevModeOverlay({
                       {P("role")}:{" "}
                       {S(
                         <span className="sparkle-text">
-                          "Creative Technologist"
-                        </span>
+                          &quot;Creative Technologist&quot;
+                        </span>,
                       )}
                       {P(",")}
                     </CodeLine>
@@ -577,7 +577,7 @@ export default function DevModeOverlay({
                       {"\u00A0\u00A0"}
                       {P("focus")}:{" "}
                       {S(
-                        '"Translating imagination into digital experiences that look good, think smart, and feel alive."'
+                        '"Translating imagination into digital experiences that look good, think smart, and feel alive."',
                       )}
                       ,
                     </CodeLine>
@@ -590,8 +590,7 @@ export default function DevModeOverlay({
                       {P("site")}: {S('"{this.build}"')}
                     </CodeLine>
                     <CodeLine>{"};"}</CodeLine>
-                    <CodeLine />
-
+                    <CodeLine>{""}</CodeLine>
                     <CodeLine>
                       {K("function")} {N("turnIdeasIntoExperiences")}
                       {P("(idea)")} {"{"}
@@ -602,8 +601,7 @@ export default function DevModeOverlay({
                       {P(";")}
                     </CodeLine>
                     <CodeLine>{P("}")}</CodeLine>
-                    <CodeLine />
-
+                    <CodeLine>{""}</CodeLine>
                     <CodeLine>
                       {C("/* ============================ */")}
                     </CodeLine>
@@ -613,11 +611,9 @@ export default function DevModeOverlay({
                     <CodeLine>
                       {C("/* ============================ */")}
                     </CodeLine>
-
                     <CodeLine>
                       {K("const")} {N("projects")} {P("=")} {P("[")}
                     </CodeLine>
-
                     {[
                       {
                         title: "Beat The Bot",
@@ -653,20 +649,18 @@ export default function DevModeOverlay({
                             rel="noopener noreferrer"
                             className="opacity-100 transition-opacity duration-200"
                           >
-                            "{p.repo}"
-                          </a>
+                            &quot;{p.repo}&quot;
+                          </a>,
                         )}{" "}
                         {P("}")}
                         {i < arr.length - 1 ? P(",") : null}
                       </CodeLine>
                     ))}
-
                     <CodeLine>
                       {P("]")}
                       {P(";")}
                     </CodeLine>
-                    <CodeLine />
-
+                    <CodeLine>{""}</CodeLine>
                     <CodeLine>
                       {C("/* ============================ */")}
                     </CodeLine>
@@ -676,7 +670,6 @@ export default function DevModeOverlay({
                     <CodeLine>
                       {C("/* ============================ */")}
                     </CodeLine>
-
                     <CodeLine>
                       {K("const")} {N("contact")} {P("=")} {P("{")}
                     </CodeLine>
@@ -685,8 +678,8 @@ export default function DevModeOverlay({
                       {P("email")}:{" "}
                       {S(
                         <a href="mailto:hello@arriannlee.xyz">
-                          "hello@arriannlee.xyz"
-                        </a>
+                          &quot;hello@arriannlee.com&quot;
+                        </a>,
                       )}
                       {P(",")}
                     </CodeLine>
@@ -699,12 +692,11 @@ export default function DevModeOverlay({
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          "https://linkedin.com/in/arriannlee/"
-                        </a>
+                          &quot;https://linkedin.com/in/arriannlee/&quot;
+                        </a>,
                       )}
                       {P(",")}
                     </CodeLine>
-
                     <CodeLine>
                       {"\u00A0\u00A0"}
                       {P("github")}:{" "}
@@ -714,18 +706,18 @@ export default function DevModeOverlay({
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          "https://github.com/arriannlee"
-                        </a>
+                          &quot;https://github.com/arriannlee&quot;
+                        </a>,
                       )}
                     </CodeLine>
                     <CodeLine>
                       {P("}")}
                       {P(";")}
                     </CodeLine>
-                    <CodeLine />
+                    <CodeLine>{""}</CodeLine>{" "}
                     <CodeLine>
                       {C(
-                        `// © ${currentYear} Arriann Lee. All rights reserved.`
+                        `// © ${currentYear} Arriann Lee. All rights reserved.`,
                       )}
                       <span className="inline-block w-2 h-5 bg-white/80 animate-pulse align-middle ml-2" />
                     </CodeLine>
