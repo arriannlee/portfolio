@@ -2982,10 +2982,15 @@ body:has(.cv-desktop) {
     padding: 24px;
   }
 
-  .cv-welcome-intro {
-    padding: 16px 0 24px;
-    text-align: left;
-  }
+.cv-welcome-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 16px 0 24px;
+  text-align: center;
+}
 
   .cv-welcome-footer {
     padding: 16px 24px;
@@ -3921,4 +3926,41 @@ body:has(.cv-desktop) {
   border-left-color: #ffffff;
   border-right-color: #808080;
   border-bottom-color: #808080;
+}
+/* ==========================================
+   CV WELCOME - MOBILE REFINEMENTS
+========================================== */
+
+@media (max-width: 640px) {
+
+  /* Centre welcome heading and supporting text */
+  .cv-welcome-intro {
+    width: 100%;
+    text-align: center;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+
+  .cv-welcome-intro h1 {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .cv-welcome-intro p {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Remove vertical divider */
+  .cv-welcome-options {
+    border-left: none;
+  }
+
+  /* Keep options comfortably positioned */
+  .cv-welcome-main {
+    gap: 32px;
+  }
+
 }
