@@ -1,13 +1,14 @@
-// This component renders the header of the website
-// It includes the site owners initial as a logo that expand to reveal full name on hover and returns to hero on click
-
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 export default function Header() {
   const [active, setActive] = useState(false);
+  const pathname = usePathname();
+
+  if (pathname === "/cv") return null;
 
   return (
     <header className="fixed top-0 left-0 w-full h-16 md:h-20 p-4 md:p-6 z-40">

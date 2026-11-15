@@ -4,7 +4,6 @@
 // It uses Next.js and the next-themes library for theme management
 // The layout ensures consistent structure and styling across all pages
 
-
 import type { Metadata } from "next";
 import { Inter, Outfit, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
@@ -58,7 +57,7 @@ export default function RootLayout({
           <ThemeToggleFloating />
           <Header />
           {/* Reserve space for fixed header */}
-          <main className="pt-16 md:pt-20">{children}</main>
+          <main className="portfolio-main">{children}</main>{" "}
           {/* Floating UI (shows when #contact is in view) */}
           <BackToTop />
         </ThemeProvider>

@@ -5,8 +5,13 @@
 "use client";
 
 import ThemeToggle from "./ThemeToggle";
+import { usePathname } from "next/navigation";
 
 export default function ThemeToggleFloating() {
+  const pathname = usePathname();
+
+  if (pathname === "/cv") return null;
+
   return (
     <div
       className="fixed top-3 right-3 z-50"
